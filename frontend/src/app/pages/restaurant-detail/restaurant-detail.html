@@ -14,7 +14,7 @@
         <p class="address">📍 {{ rest.address }}</p>
       </div>
       <div class="cta-box">
-        <app-button variant="primary">Book a table</app-button>
+        <app-button variant="primary" (click)="openBookingModal(restaurant)">Book a table</app-button>
       </div>
     </div>
 

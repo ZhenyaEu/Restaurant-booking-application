@@ -13,6 +13,8 @@ app.use(cors());
 app.use(express.json());
 const restaurantRoutes = require('./routes/restaurants');
 app.use('/api/restaurants', restaurantRoutes);
+//app.use('/api/bookings', require('./bookings.routes'));
+app.use('/api/bookings', require('./routes/bookings.routes'));
 
 // Раздаем всю папку public как статическую
 app.use('/static', express.static(path.join(__dirname, 'public')));

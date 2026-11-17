@@ -2,6 +2,8 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RestaurantsService, Restaurant } from '../../core/services/restaurants';
 import { ButtonComponent } from '../../shared/components/button/button';
+import { MatDialog } from '@angular/material/dialog';
+import { BookTableDialogComponent } from '../../core/components/book-table-dialog.ts/book-table-dialog';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -13,6 +15,7 @@ import { ButtonComponent } from '../../shared/components/button/button';
 export class RestaurantDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private restaurantsService = inject(RestaurantsService);
+  private dialog = inject(MatDialog);
 
   restaurant = signal<Restaurant | null>(null);
 
@@ -25,4 +28,22 @@ export class RestaurantDetailComponent implements OnInit {
       });
     }
   }
+
+  openBookingModal(restaurant: any): void {
+  const dialogRef = this.dialog.open(BookTableDialogComponent, {
+    width: '450px',
+    data: {
+      restaurantId: restaurant.id || restaurant._id || '1',
+      name: restaurant.name,
+      address: restaurant.address,
+      photoUrl: restaurant.photoUrl
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      // Здесь можно показать уведомление (MatSnackBar): "Столик успешно забронирован!"
+    }
+  });
+}
 }

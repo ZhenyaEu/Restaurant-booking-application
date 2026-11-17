@@ -1,0 +1,29 @@
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface TimelineSlot {
+  time: string;
+  minutes: number;
+  isPast: boolean;
+  isReserved: boolean;
+  isAvailableForStart: boolean;
+}
+
+@Injectable({ providedIn: 'root' })
+export class BookingService {
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:3000/api/bookings';
+
+  getTimeline(restaurantId: string, date: string): Observable<TimelineSlot[]> {
+    // Передаем смещение часового пояса пользователя (в минутах), чтобы сервер точно знал локальное время
+    const tzOffset = new Date().getTimezoneOffset(); 
+    return this.http.get<TimelineSlot[]>(`${this.apiUrl}/timeline`, {
+      params: { restaurantId, date, tzOffset: tzOffset.toString() }
+    });
+  }
+
+  createBooking(data: { restaurantId: string; date: string; startTime: string; endTime: string }): Observable<any> {
+    return this.http.post(this.apiUrl, data);
+  }
+}
