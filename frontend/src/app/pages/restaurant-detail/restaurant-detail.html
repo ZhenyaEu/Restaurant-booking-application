@@ -1,0 +1,61 @@
+@if (restaurant(); as rest) {
+  <div class="detail-container">
+    <a routerLink="/restaurants" class="back-link">← Back to Restaurants</a>
+
+    <!-- Крупное фото ресторана -->
+    <div class="hero-banner">
+      <img [src]="rest.imageUrl" [alt]="rest.name" class="hero-img">
+    </div>
+
+    <!-- Шапка с названием, адресом и кнопкой Book a table -->
+    <div class="header-bar">
+      <div>
+        <h1>{{ rest.name }}</h1>
+        <p class="address">📍 {{ rest.address }}</p>
+      </div>
+      <div class="cta-box">
+        <app-button variant="primary">Book a table</app-button>
+      </div>
+    </div>
+
+    <!-- Блок подробной информации -->
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>🌿 Interior & Atmosphere</h3>
+        <p>{{ rest.interiorDescription }}</p>
+      </div>
+
+      <div class="info-card">
+        <h3>🗺️ Location & Surroundings</h3>
+        <p>{{ rest.locationDescription }}</p>
+      </div>
+
+      <div class="info-card">
+        <h3>🍽️ Cuisine</h3>
+        <p>{{ rest.cuisine }}</p>
+      </div>
+
+      <div class="info-card">
+        <h3>🕒 Working Hours</h3>
+        <p>{{ rest.workingHours }}</p>
+      </div>
+    </div>
+
+    <!-- Горизонтальная секция отзывов внизу -->
+    <section class="reviews-section">
+      <h2>Guest Reviews</h2>
+      <div class="reviews-row">
+        @for (review of rest.reviews; track review.id) {
+          <div class="review-card">
+            <div class="review-top">
+              <span class="review-author">{{ review.author }}</span>
+              <span class="review-rating">⭐ {{ review.rating }}/5</span>
+            </div>
+            <p class="review-comment">"{{ review.comment }}"</p>
+            <span class="review-date">{{ review.date }}</span>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+}

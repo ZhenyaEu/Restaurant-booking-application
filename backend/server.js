@@ -11,6 +11,9 @@ const JWT_SECRET = 'my_super_secret_key_123';
 
 app.use(cors());
 app.use(express.json());
+const restaurantRoutes = require('./routes/restaurants');
+app.use('/api/restaurants', restaurantRoutes);
+
 // Раздаем всю папку public как статическую
 app.use('/static', express.static(path.join(__dirname, 'public')));
 

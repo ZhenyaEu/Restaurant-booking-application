@@ -12,18 +12,17 @@
   <!-- Кнопки по центру -->
   <div class="navbar-menu">
   @if (authService.currentUser()?.role === 'Waiter') {
-    <!-- Для Waiter только Orders -->
+    <!-- Для Waiter отображается только Orders -->
     <app-button variant="text" routerLink="/orders">Orders</app-button>
   } @else {
-    <!-- Main видна всем, кроме Waiter -->
+    <!-- Кнопки для Гостя, Customer и Admin -->
     <app-button variant="text" routerLink="/">Main</app-button>
+    <app-button variant="text" routerLink="/restaurants">Restaurants</app-button>
     
-    <!-- About скрыта для Admin -->
     @if (authService.currentUser()?.role !== 'Admin') {
       <app-button variant="text" routerLink="/about">About</app-button>
     }
     
-    <!-- Admin Panel видна только для Admin -->
     @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Admin') {
       <app-button variant="text" routerLink="/admin">Admin Panel</app-button>
     }

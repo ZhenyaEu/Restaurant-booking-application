@@ -1,0 +1,26 @@
+<div class="restaurants-container">
+  <header class="page-header">
+    <h1>Our Restaurants</h1>
+    <p>Visit us to enjoy fresh dishes in a cozy atmosphere.</p>
+  </header>
+
+  <div class="restaurants-grid">
+    @for (restaurant of restaurants(); track restaurant.id) {
+      <div class="restaurant-card">
+        <div class="card-image-wrapper">
+          <img [src]="restaurant.imageUrl" [alt]="restaurant.name" class="restaurant-img">
+        </div>
+        <div class="card-info">
+          <h3 class="restaurant-name">{{ restaurant.name }}</h3>
+          <p class="restaurant-address">📍 {{ restaurant.address }}</p>
+          <div class="card-actions">
+            <!-- Динамический переход на /restaurant/{id} -->
+            <app-button variant="primary" [routerLink]="['/restaurant', restaurant.id]">
+              Learn more
+            </app-button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
