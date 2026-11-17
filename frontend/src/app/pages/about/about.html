@@ -1,0 +1,53 @@
+<section class="about-section">
+  <!-- Hero / Intro -->
+  <div class="about-container">
+    <header class="about-header">
+      <span class="eyebrow">Our Story &amp; Philosophy</span>
+      <h1 class="headline">
+        Where Culinary Heritage Meets <em>Modern Alchemy</em>
+      </h1>
+      <p class="lead-text">
+        Founded in 2018, <strong>Aurelia</strong> was born from a simple obsession: to strip away the unnecessary and celebrate ingredients in their purest, most expressive form.
+      </p>
+    </header>
+
+    <!-- Editorial Split Block -->
+    <div class="story-grid">
+      <div class="image-frame">
+        <img
+          src="https://unsplash.com"
+          alt="Chef plating a signature dish"
+          loading="lazy"
+        />
+        <div class="image-caption">Crafted with patience in the heart of the city.</div>
+      </div>
+
+      <div class="story-content">
+        <h2>A Dialogue Between Fire, Earth, and Time</h2>
+        <p>
+          What began as a twelve-seat supper club has evolved into an intimate sanctuary for the curious palate. Our kitchen operates without freezers or shortcuts—only honest produce harvested at peak ripeness, aged in-house, and transformed over live fire.
+        </p>
+        <p>
+          Each plate tells a story of the hands that nurtured it, from the artisan ceramicists who shape our tableware to the independent winemakers whose biodynamic bottles line our cellar.
+        </p>
+
+        <blockquote class="chef-quote">
+          <p>“We don’t cook to impress; we cook to evoke a memory you haven’t had yet.”</p>
+          <footer>
+            <span class="chef-name">Julian Vance</span>
+            <span class="chef-role">Executive Chef &amp; Founder</span>
+          </footer>
+        </blockquote>
+      </div>
+    </div>
+
+    <!-- Three Pillars -->
+    <div class="pillars-section">
+      <div class="pillar-card" *ngFor="let item of pillars">
+        <span class="pillar-number">{{ item.number }}</span>
+        <h3 class="pillar-title">{{ item.title }}</h3>
+        <p class="pillar-desc">{{ item.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>

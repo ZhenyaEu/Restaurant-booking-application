@@ -1,0 +1,207 @@
+// Light Palette & Typography Variables
+$bg-primary: #ffffff;          // Чистый белый основной фон
+$bg-elevated: #faf8f5;         // Теплый молочный оттенок для карточек и цитаты
+$text-primary: #1a1917;        // Глубокий графитово-черный для заголовков
+$text-muted: #5e5a52;          // Благородный теплый серый для основного текста
+$accent-gold: #a67c37;         // Насыщенная античная бронза/золото (контрастная на белом)
+$border-subtle: rgba(26, 25, 23, 0.1);
+
+$font-serif: 'Cormorant Garamond', Georgia, serif;
+$font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+.about-section {
+  background-color: $bg-primary;
+  color: $text-primary;
+  font-family: $font-sans;
+  padding: 6rem 1.5rem;
+  line-height: 1.7;
+  overflow-x: hidden;
+
+  .about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+// Header Styling
+.about-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 5rem;
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: $accent-gold;
+    margin-bottom: 1.25rem;
+  }
+
+  .headline {
+    font-family: $font-serif;
+    font-size: clamp(2.5rem, 5vw, 4.25rem);
+    font-weight: 500;
+    line-height: 1.12;
+    color: $text-primary;
+    margin: 0 0 1.5rem;
+    letter-spacing: -0.01em;
+
+    em {
+      font-style: italic;
+      color: $accent-gold;
+    }
+  }
+
+  .lead-text {
+    font-size: 1.125rem;
+    color: $text-muted;
+    margin: 0;
+
+    strong {
+      color: $text-primary;
+      font-weight: 600;
+    }
+  }
+}
+
+// Split Grid (Image + Narrative)
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 4.5rem;
+  align-items: center;
+  margin-bottom: 6rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+.image-frame {
+  position: relative;
+
+  img {
+    width: 100%;
+    height: 540px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+    box-shadow: 0 20px 40px -15px rgba(26, 25, 23, 0.14);
+  }
+
+  .image-caption {
+    margin-top: 0.85rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: $text-muted;
+    text-align: right;
+    font-style: italic;
+  }
+}
+
+.story-content {
+  h2 {
+    font-family: $font-serif;
+    font-size: clamp(1.85rem, 3vw, 2.5rem);
+    font-weight: 500;
+    line-height: 1.25;
+    color: $text-primary;
+    margin: 0 0 1.5rem;
+  }
+
+  p {
+    color: $text-muted;
+    font-size: 1rem;
+    margin: 0 0 1.25rem;
+  }
+}
+
+// Chef Quote Block
+.chef-quote {
+  margin: 2.5rem 0 0;
+  padding: 1.75rem 2rem;
+  background-color: $bg-elevated;
+  border-left: 3px solid $accent-gold;
+  border-radius: 0 4px 4px 0;
+
+  p {
+    font-family: $font-serif;
+    font-size: 1.45rem;
+    font-style: italic;
+    color: $text-primary;
+    line-height: 1.45;
+    margin: 0 0 1rem;
+  }
+
+  footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+
+    .chef-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: $accent-gold;
+    }
+
+    .chef-role {
+      font-size: 0.8rem;
+      color: $text-muted;
+    }
+  }
+}
+
+// Pillars / Values Grid
+.pillars-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  padding-top: 4rem;
+  border-top: 1px solid $border-subtle;
+
+  @media (max-width: 850px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.pillar-card {
+  padding: 1.75rem;
+  background-color: $bg-elevated;
+  border-radius: 4px;
+  border: 1px solid $border-subtle;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -10px rgba(26, 25, 23, 0.08);
+  }
+
+  .pillar-number {
+    display: block;
+    font-family: $font-serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: $accent-gold;
+    margin-bottom: 0.75rem;
+  }
+
+  .pillar-title {
+    font-family: $font-serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem;
+    color: $text-primary;
+  }
+
+  .pillar-desc {
+    font-size: 0.95rem;
+    color: $text-muted;
+    margin: 0;
+  }
+}

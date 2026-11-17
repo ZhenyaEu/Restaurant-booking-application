@@ -1,0 +1,43 @@
+<div class="orders-container">
+  <h1>Customer Orders</h1>
+
+  @if (orders().length === 0) {
+    <p class="no-orders">No orders have been placed yet.</p>
+  } @else {
+    <div class="orders-list">
+      @for (order of orders(); track order.id) {
+        <div class="order-card">
+          <div class="order-header">
+            <div>
+              <h3>Order #{{ order.id }} — {{ order.customerName }}</h3>
+              <span class="customer-email">{{ order.customerEmail }}</span>
+            </div>
+            <span class="order-date">{{ order.createdAt | date:'medium' }}</span>
+          </div>
+
+          <div class="order-items">
+            @for (item of order.items; track item.dish.id) {
+              <div class="order-item-row">
+                <span>{{ item.dish.name }} <b>× {{ item.quantity }}</b></span>
+                <span>{{ item.dish.price * item.quantity }}$</span>
+              </div>
+            }
+          </div>
+
+          <div class="order-footer">
+            <div class="total-price">Total: <b>{{ order.totalPrice }}$</b></div>
+
+            <div class="status-actions">
+              @if (order.status === 'In progress') {
+                <span class="status-badge in-progress">In progress</span>
+                <button class="btn-done" (click)="markAsDone(order.id)">Done!</button>
+              } @else {
+                <span class="status-badge completed">Completed</span>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

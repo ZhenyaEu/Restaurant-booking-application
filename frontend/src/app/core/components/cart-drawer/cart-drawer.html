@@ -1,0 +1,48 @@
+<!-- Затемнение заднего фона при открытой корзине -->
+@if (cartService.isOpen()) {
+  <div class="backdrop" (click)="cartService.closeCart()"></div>
+}
+
+<!-- Выезжающая панель справа -->
+<aside class="cart-drawer" [class.open]="cartService.isOpen()">
+  <div class="cart-header">
+    <h2>Your Order</h2>
+    <button class="btn-close" (click)="cartService.closeCart()">✕</button>
+  </div>
+
+  <div class="cart-body">
+    @if (cartService.items().length === 0) {
+      <div class="empty-cart">
+        <p>Your cart is empty.</p>
+        <span>Add some delicious dishes from the menu!</span>
+      </div>
+    } @else {
+      @for (item of cartService.items(); track item.dish.id) {
+        <div class="cart-item">
+          <img [src]="item.dish.imageUrl" [alt]="item.dish.name" class="item-img">
+          
+          <div class="item-details">
+            <h4>{{ item.dish.name }}</h4>
+            <span class="item-price">{{ item.dish.price }}$</span>
+          </div>
+
+          <div class="quantity-controls">
+            <button (click)="cartService.updateQuantity(item.dish.id, -1)">−</button>
+            <span>{{ item.quantity }}</span>
+            <button (click)="cartService.updateQuantity(item.dish.id, 1)">+</button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+  @if (cartService.items().length > 0) {
+    <div class="cart-footer">
+      <div class="total-row">
+        <span>Total:</span>
+        <span class="total-amount">{{ cartService.totalPrice() }}$</span>
+      </div>
+      <button class="btn-checkout" (click)="onCheckout()">Checkout</button>
+    </div>
+  }
+</aside>

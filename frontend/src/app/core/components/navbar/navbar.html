@@ -1,0 +1,60 @@
+<nav class="navbar">
+  <!-- Логотип слева -->
+  <div class="navbar-logo" routerLink="/">
+    @if (logoUrl()) {
+      <img [src]="logoUrl()" alt="Logo" class="logo-img" />
+    } @else {
+      <!-- Плейсхолдер, пока данные с бэкенда грузятся -->
+      <span class="logo-placeholder">Loading...</span>
+    }
+  </div>
+
+  <!-- Кнопки по центру -->
+  <div class="navbar-menu">
+  @if (authService.currentUser()?.role === 'Waiter') {
+    <!-- Для Waiter только Orders -->
+    <app-button variant="text" routerLink="/orders">Orders</app-button>
+  } @else {
+    <!-- Main видна всем, кроме Waiter -->
+    <app-button variant="text" routerLink="/">Main</app-button>
+    
+    <!-- About скрыта для Admin -->
+    @if (authService.currentUser()?.role !== 'Admin') {
+      <app-button variant="text" routerLink="/about">About</app-button>
+    }
+    
+    <!-- Admin Panel видна только для Admin -->
+    @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Admin') {
+      <app-button variant="text" routerLink="/admin">Admin Panel</app-button>
+    }
+  }
+</div>
+
+
+
+  <!-- Кнопка справа -->
+  <div class="navbar-actions">
+  @if (!authService.isAuthenticated()) {
+    <app-button variant="text" (click)="openLogin()">Log In</app-button>
+    <app-button variant="text" (click)="openRegister()">Sign UP</app-button>
+  } @else {
+    <div class="user-profile">
+      <!-- Кнопка корзины видна ТОЛЬКО для Customer -->
+      @if (authService.currentUser()?.role === 'Customer') {
+        <app-button variant="text" (click)="cartService.toggleCart()">
+          Cart ({{ cartService.totalCount() }})
+        </app-button>
+      }
+
+      <span class="user-info">
+        {{ authService.currentUser()?.firstName }} 
+        <b class="role-badge" [class.admin]="authService.currentUser()?.role === 'Admin'">
+          [{{ authService.currentUser()?.role }}]
+        </b>
+      </span>
+      <app-button variant="text" (click)="onLogout()">Log Out</app-button>
+    </div>
+  }
+</div>
+
+</nav>

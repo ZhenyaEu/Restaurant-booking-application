@@ -1,0 +1,37 @@
+<div class="home-container">
+  <header class="hero">
+    <h1>Welcome to Our Delicious Menu</h1>
+    <p>Explore high-quality dishes prepared fresh every single day.</p>
+  </header>
+
+  <div class="dishes-grid">
+    @for (dish of dishes(); track dish.id) {
+      <div class="dish-card">
+        <div class="dish-image-wrapper">
+          <img [src]="dish.imageUrl" [alt]="dish.name" class="dish-img">
+        </div>
+
+        <div class="dish-info">
+          <h3 class="dish-name">{{ dish.name }}</h3>
+          <p class="dish-desc">{{ dish.description }}</p>
+
+          <!-- Нижняя панель карточки, видимая для всех ролей -->
+          <div class="dish-footer">
+            <span class="dish-price">{{ dish.price }}$</span>
+
+            <!-- Кнопка видна ТОЛЬКО для Customer -->
+            @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Customer') {
+              <app-button variant="primary" (click)="onAddToCart(dish)">Add</app-button>
+            }
+             @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Admin') {
+              <div class="admin-actions">
+                <button class="btn-edit" (click)="onEdit(dish)">Edit</button>
+                <button class="btn-delete" (click)="onDelete(dish.id)">Delete</button>
+              </div>
+            }
+          </div>
+        </div>
+      </div> <!-- Закрываем dish-card ВНУТРИ цикла -->
+    } <!-- Закрываем @for -->
+  </div> <!-- Закрываем dishes-grid -->
+</div> <!-- Закрываем home-container -->

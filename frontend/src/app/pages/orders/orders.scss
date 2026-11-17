@@ -1,0 +1,101 @@
+.orders-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+
+  h1 { margin-bottom: 1.5rem; }
+}
+
+.no-orders {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.order-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8f0;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+
+  h3 { margin: 0 0 0.25rem 0; font-size: 1.15rem; }
+  .customer-email { color: #64748b; font-size: 0.9rem; }
+  .order-date { color: #94a3b8; font-size: 0.85rem; }
+}
+
+.order-items {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .order-item-row {
+    display: flex;
+    justify-content: space-between;
+    color: #334155;
+    font-size: 0.95rem;
+  }
+}
+
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #f1f5f9;
+
+  .total-price {
+    font-size: 1.1rem;
+    color: #0f172a;
+  }
+
+  .status-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .status-badge {
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+
+    &.in-progress {
+      color: #dc2626;
+      background: #fef2f2;
+    }
+
+    &.completed {
+      color: #15803d;
+      background: #dcfce7;
+    }
+  }
+
+  .btn-done {
+    background: #15803d;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover { background: #166534; }
+  }
+}

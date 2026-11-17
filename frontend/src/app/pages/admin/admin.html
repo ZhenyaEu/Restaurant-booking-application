@@ -1,0 +1,67 @@
+<div class="admin-container">
+  <h1>Admin Management Panel</h1>
+
+  <mat-tab-group animationDuration="200ms">
+
+    <!-- Вкладка 1: Список покупателей -->
+    <mat-tab label="Customer List">
+      <div class="tab-content">
+        <h3>Registered Customers</h3>
+        @if (customers().length === 0) {
+        <p>No customers registered yet.</p>
+        } @else {
+        <ul class="customer-list">
+          @for (user of customers(); track user.id) {
+          <li>
+            <strong>{{ user.firstName }} {{ user.secondName }}</strong> — {{ user.email }}
+          </li>
+          }
+        </ul>
+        }
+      </div>
+    </mat-tab>
+
+    <!-- Вкладка 2: Добавление блюда -->
+    <mat-tab label="ADD Dish">
+      <div class="tab-content">
+        <h3>Add New Dish to Menu</h3>
+
+        @if (successMessage()) {
+        <div class="success-banner">
+          {{ successMessage() }}
+        </div>
+        }
+
+        <form [formGroup]="dishForm" #formDirective="ngForm" (ngSubmit)="onSubmitDish()" class="admin-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Dish Name</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="3" formControlName="description"></textarea>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Price ($)</mat-label>
+            <input matInput type="number" min="1" formControlName="price">
+          </mat-form-field>
+
+          <div class="file-upload">
+            <label for="file-input" class="file-label">Choose Dish Image</label>
+            <input id="file-input" type="file" (change)="onFileSelected($event)" accept="image/*">
+            @if (selectedFile) {
+            <span class="file-name">{{ selectedFile.name }}</span>
+            }
+          </div>
+
+          <button type="submit" class="btn-submit" [disabled]="dishForm.invalid || !selectedFile">
+            Submit Dish
+          </button>
+        </form>
+      </div>
+    </mat-tab>
+
+  </mat-tab-group>
+</div>

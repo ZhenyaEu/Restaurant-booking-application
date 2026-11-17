@@ -1,0 +1,64 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  
+  // Легкий зеленоватый градиент (от мягкого мятного к белому)
+  background: linear-gradient(135deg, #e8f5e9 0%, #ffffff 100%);
+
+  &-logo {
+    display: flex;
+    align-items: center;
+    min-width: 120px;
+
+    .logo-img {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .logo-placeholder {
+      font-size: 0.85rem;
+      color: #81c784;
+      font-style: italic;
+    }
+  }
+
+  &-menu {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-grow: 1; // Заставляет блок кнопок занять центр
+  }
+
+  &-actions {
+    display: flex;
+    justify-content: flex-end;
+    min-width: 120px;
+  }
+}
+
+button {
+  font-family: inherit;
+  font-size: 0.95rem; /* Чуть уменьшаем базовый размер для аккуратности интерфейса */
+  font-weight: 500;   /* Делаем текст кнопок медиум (полужирным), так он читается отчетливее */
+  letter-spacing: 0.01em; /* Небольшое расстояние между буквами для читаемости мелкого текста */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  background: transparent;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px; /* Более мягкие современные скругления углов */
+
+  &.text {
+    color: #334155; /* Благородный сланцевый цвет текста */
+    
+    &:hover {
+      background-color: rgba(30, 41, 59, 0.04); /* Очень мягкий ховер */
+      color: #15803d; /* При наведении красивый приглушенный зеленый, под ваш градиент */
+    }
+  }
+}
+
