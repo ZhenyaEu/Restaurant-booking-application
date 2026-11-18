@@ -1,6 +1,21 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 const bookingService = require('../services/bookings.service');
+
+const JWT_SECRET = 'my_super_secret_key_123';
+
+// Простой мидлвар для чтения пользователя из токена
+const extractUser = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    try {
+      req.user = jwt.verify(authHeader.split(' ')[1], JWT_SECRET);
+    } catch (e) {}
+  }
+  next();
+};
+
 
 // GET /api/bookings/timeline?restaurantId=1&date=2026-11-17&tzOffset=-120
 router.get('/timeline', async (req, res) => {
@@ -16,10 +31,31 @@ router.get('/timeline', async (req, res) => {
   }
 });
 
-// POST /api/bookings
-router.post('/', async (req, res) => {
+
+router.get('/waiter', extractUser, async (req, res) => {
+  if (!req.user || req.user.role !== 'Waiter') {
+    return res.status(403).json({ message: 'Доступ только для официантов' });
+  }
   try {
-    const saved = await bookingService.createBooking(req.body);
+    const allBookings = await bookingService.getAllBookings();
+    res.json(allBookings);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// POST /api/bookings
+router.post('/', extractUser, async (req, res) => {
+  try {
+    // Объединяем данные формы с данными пользователя из токена и датой создания
+    const bookingPayload = {
+      ...req.body,
+      customerEmail: req.body.customerEmail || req.user?.email || 'Guest',
+      customerName: req.body.customerName || req.user?.email?.split('@')[0] || 'Customer',
+      createdAt: new Date().toISOString()
+    };
+
+    const saved = await bookingService.createBooking(bookingPayload);
     res.status(201).json(saved);
   } catch (err) {
     res.status(400).json({ message: err.message });

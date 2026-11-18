@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 //import { BookingService, TimelineSlot } from '../booking';
 import { BookingService, TimelineSlot } from '../../services/booking';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-book-table-dialog',
@@ -101,6 +102,7 @@ export class BookTableDialogComponent implements OnInit {
   private fb = inject(FormBuilder);
   private bookingService = inject(BookingService);
   private dialogRef = inject(MatDialogRef<BookTableDialogComponent>);
+  private authService = inject(AuthService);
 
   minDate = new Date(); // Запрещаем выбор вчерашнего дня
   timeline: TimelineSlot[] = [];
@@ -119,7 +121,7 @@ export class BookTableDialogComponent implements OnInit {
     return this.timeline.slice(0, -1);
   }
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     // 1. Реакция на выбор даты
@@ -199,12 +201,15 @@ export class BookTableDialogComponent implements OnInit {
     this.errorMessage = '';
 
     const { date, startTime, endTime } = this.form.value;
+    const user = this.authService.currentUser();
 
     this.bookingService.createBooking({
       restaurantId: this.data.restaurantId,
       date: this.formatDate(date),
       startTime: startTime.time,
-      endTime: endTime
+      endTime: endTime,
+      customerName: user ? `${user.firstName} ${user.secondName}` : 'Guest',
+      customerEmail: ''
     }).subscribe({
       next: (res) => {
         this.isLoading = false;

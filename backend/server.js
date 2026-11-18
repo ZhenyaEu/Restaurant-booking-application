@@ -114,7 +114,7 @@ app.post('/api/login', (req, res) => {
   const user = users.find(u => u.email === email && u.password === password);
   if (!user) return res.status(401).json({ message: 'Invalid credentials' });
   const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-  res.json({ token, user: { firstName: user.firstName, secondName: user.secondName, role: user.role } });
+  res.json({ token, user: { firstName: user.firstName, secondName: user.secondName, email: user.email, role: user.role } });
 });
 
 // 4. Защищенный список пользователей (только для Админа)

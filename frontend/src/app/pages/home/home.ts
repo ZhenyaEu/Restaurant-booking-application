@@ -1,5 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { DishesService, Dish } from '../../core/services/dishes';
 import { ButtonComponent } from '../../shared/components/button/button';
 import { AuthService } from '../../core/services/auth';
@@ -9,7 +10,7 @@ import { CartService } from '../../core/services/cart';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [ButtonComponent, MatDialogModule, MatSnackBarModule],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
@@ -18,6 +19,7 @@ export class Home implements OnInit {
   private dialog = inject(MatDialog);
   public authService = inject(AuthService);
   private cartService = inject(CartService);
+  private snackBar = inject(MatSnackBar);
 
   dishes = signal<Dish[]>([]);
 
@@ -59,6 +61,12 @@ export class Home implements OnInit {
   
   onAddToCart(dish: Dish) {
     this.cartService.addToCart(dish);
+    this.snackBar.open(`"${dish.name}" added to cart`, 'OK', {
+      duration: 2000,
+      horizontalPosition: 'end',   // Справа внизу (можно поставить 'center')
+      verticalPosition: 'bottom',
+      panelClass: ['cart-snackbar'] // Кастомный класс для стилизации
+    });
   }
 
 }

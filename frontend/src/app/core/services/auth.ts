@@ -10,6 +10,7 @@ export interface AuthResponse {
     firstName: string;
     secondName: string;
     role: 'Admin' | 'Customer' | 'Waiter';
+    email?: string;
   };
 }
 

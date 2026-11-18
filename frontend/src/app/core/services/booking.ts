@@ -8,6 +8,19 @@ export interface TimelineSlot {
   isPast: boolean;
   isReserved: boolean;
   isAvailableForStart: boolean;
+
+}
+
+// 1. Новый интерфейс для резерваций, которые будет видеть официант
+export interface Booking {
+  id: string;
+  restaurantId: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  customerName: string;
+  customerEmail: string;
+  createdAt: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -17,13 +30,24 @@ export class BookingService {
 
   getTimeline(restaurantId: string, date: string): Observable<TimelineSlot[]> {
     // Передаем смещение часового пояса пользователя (в минутах), чтобы сервер точно знал локальное время
-    const tzOffset = new Date().getTimezoneOffset(); 
+    const tzOffset = new Date().getTimezoneOffset();
     return this.http.get<TimelineSlot[]>(`${this.apiUrl}/timeline`, {
       params: { restaurantId, date, tzOffset: tzOffset.toString() }
     });
   }
 
-  createBooking(data: { restaurantId: string; date: string; startTime: string; endTime: string }): Observable<any> {
+  createBooking(data: {
+    restaurantId: string;
+    date: string;
+    startTime: string;
+    endTime: string;
+    customerName?: string;
+    customerEmail?: string;
+  }): Observable<any> {
     return this.http.post(this.apiUrl, data);
+  }
+
+  getWaiterBookings(): Observable<Booking[]> {
+    return this.http.get<Booking[]>(`${this.apiUrl}/waiter`);
   }
 }

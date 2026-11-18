@@ -1,0 +1,45 @@
+<div class="reservations-container">
+    <div class="header-row">
+        <h1>Table Reservations</h1>
+
+        <!-- Date filter / sort bar -->
+        <div class="filter-controls">
+            <label for="date-filter">Filter by Date:</label>
+            <input id="date-filter" type="date" [ngModel]="selectedDate()" (ngModelChange)="onDateChange($event)" />
+            @if (selectedDate()) {
+            <button class="btn-clear" (click)="clearFilter()">Show All</button>
+            }
+        </div>
+    </div>
+
+    @if (filteredBookings().length === 0) {
+    <p class="empty-msg">
+        {{ selectedDate() ? 'No reservations found for this date.' : 'No table reservations yet.' }}
+    </p>
+    } @else {
+    <div class="reservations-list">
+        @for (item of filteredBookings(); track item.id) {
+        <div class="reservation-card">
+            <div class="card-top">
+                <div>
+                    <h3>Reservation #{{ item.id }} — {{ item.customerName }}</h3>
+                    <span class="customer-email">{{ item.customerEmail }}</span>
+                </div>
+                <span class="created-at">Booked on: {{ item.createdAt | date:'medium' }}</span>
+            </div>
+
+            <div class="card-details">
+                <div class="detail-badge">
+                    <span>📅 Reserved Date:</span>
+                    <b>{{ item.date }}</b>
+                </div>
+                <div class="detail-badge">
+                    <span>🕒 Time Slot:</span>
+                    <b>{{ item.startTime }} – {{ item.endTime }}</b>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    }
+</div>

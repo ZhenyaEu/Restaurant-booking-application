@@ -8,6 +8,7 @@ import { adminGuard } from './core/guards/admin-guard';
 import { OrdersComponent } from './pages/orders/orders';
 import { waiterGuard } from './core/guards/waiter-guard';
 import { notWaiterGuard } from './core/guards/not-waiter-guard';
+import { ReservationsComponent } from './pages/reservations/reservations';
 
 
 export const routes: Routes = [
@@ -21,6 +22,7 @@ export const routes: Routes = [
 
   { path: 'admin', component: Admin, canActivate: [adminGuard] },
   { path: 'orders', component: OrdersComponent, canActivate: [waiterGuard] },
+  { path: 'reservations', component: ReservationsComponent, canActivate: [waiterGuard] },
   
   // Редирект на главную, если пользователь ввел несуществующий адрес
   { path: '**', redirectTo: '' } 

@@ -14,6 +14,7 @@
   @if (authService.currentUser()?.role === 'Waiter') {
     <!-- Для Waiter отображается только Orders -->
     <app-button variant="text" routerLink="/orders">Orders</app-button>
+    <app-button variant="text" routerLink="/reservations">Reservations</app-button>
   } @else {
     <!-- Кнопки для Гостя, Customer и Admin -->
     <app-button variant="text" routerLink="/">Main</app-button>

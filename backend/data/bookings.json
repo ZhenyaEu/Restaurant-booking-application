@@ -1,77 +1,22 @@
 [
   {
-    "id": "1794923919902",
-    "restaurantId": "1",
-    "date": "2026-11-20",
-    "startTime": "09:30",
-    "endTime": "12:30"
-  },
-  {
-    "id": "1794924083346",
-    "restaurantId": "1",
-    "date": "2026-11-20",
-    "startTime": "13:30",
-    "endTime": "14:00"
-  },
-  {
-    "id": "1794924830650",
-    "restaurantId": "1",
-    "date": "2026-11-25",
-    "startTime": "14:00",
-    "endTime": "15:30"
-  },
-  {
-    "id": "1794924899571",
-    "restaurantId": "1",
+    "id": "1795001343947",
+    "restaurantId": 1,
     "date": "2026-11-19",
-    "startTime": "17:00",
-    "endTime": "22:00"
+    "startTime": "09:00",
+    "endTime": "10:00",
+    "customerName": "Saeede Tajvar",
+    "customerEmail": "1@gmail.com",
+    "createdAt": "2026-11-18T11:29:03.946Z"
   },
   {
-    "id": "1794987446025",
-    "date": "2026-11-19",
-    "startTime": "12:30",
-    "endTime": "17:00"
-  },
-  {
-    "id": "1794987604504",
-    "date": "2026-11-19",
-    "startTime": "09:30",
-    "endTime": "11:30"
-  },
-  {
-    "id": "1794988272298",
+    "id": "1795001876850",
     "restaurantId": 1,
     "date": "2026-11-20",
-    "startTime": "17:00",
-    "endTime": "20:30"
-  },
-  {
-    "id": "1794994203438",
-    "restaurantId": 1,
-    "date": "2026-11-21",
     "startTime": "10:30",
-    "endTime": "13:00"
-  },
-  {
-    "id": "1794995087245",
-    "restaurantId": 1,
-    "date": "2026-11-26",
-    "startTime": "11:00",
-    "endTime": "13:30"
-  },
-  {
-    "id": "1794995102572",
-    "restaurantId": 1,
-    "date": "2026-11-19",
-    "startTime": "11:00",
-    "endTime": "13:30"
-  },
-  {
-    "id": "1794995164141",
-    "restaurantId": 1,
-    "date": "2026-11-25",
-    "startTime": "20:30",
-    "endTime": "22:00"
+    "endTime": "13:00",
+    "customerName": "Saeede Tajvar",
+    "customerEmail": "1@gmail.com",
+    "createdAt": "2026-11-18T11:37:56.850Z"
   }
 ]

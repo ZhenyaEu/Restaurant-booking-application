@@ -76,7 +76,15 @@ const getDayTimeline = async (restaurantId, dateStr, clientTimezoneOffset = 0) =
   return slots;
 };
 
-const createBooking = async ({ restaurantId, date, startTime, endTime }) => {
+const createBooking = async ({
+  restaurantId,
+  date,
+  startTime,
+  endTime,
+  customerName,
+  customerEmail,
+  createdAt
+}) => {
   const startMins = timeToMinutes(startTime);
   const endMins = timeToMinutes(endTime);
 
@@ -104,7 +112,10 @@ const createBooking = async ({ restaurantId, date, startTime, endTime }) => {
     restaurantId,
     date,
     startTime,
-    endTime
+    endTime,
+    customerName: customerName || 'Customer',               // <-- 4. Сохраняем в JSON
+    customerEmail: customerEmail || 'No email provided',    // <-- 5. Сохраняем в JSON
+    createdAt: createdAt || new Date().toISOString()        // <-- 6. Сохраняем в JSON
   };
 
   allBookings.push(newBooking);
@@ -112,4 +123,9 @@ const createBooking = async ({ restaurantId, date, startTime, endTime }) => {
   return newBooking;
 };
 
-module.exports = { getDayTimeline, createBooking };
+// 7. Добавляем функцию получения всех броней для официанта
+const getAllBookings = async () => {
+  return readBookings();
+};
+
+module.exports = { getDayTimeline, createBooking, getAllBookings };
