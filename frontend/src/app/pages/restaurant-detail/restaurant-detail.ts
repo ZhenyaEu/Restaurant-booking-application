@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BookTableDialogComponent } from '../../core/components/book-table-dialog.ts/book-table-dialog';
 import { AuthService } from '../../core/services/auth';
 import { RegisterDialogComponent } from '../../core/components/register-dialog/register-dialog';
+import { BookingSuccessDialogComponent } from '../../core/components/booking-success-dialog/booking-success-dialog';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -66,9 +67,20 @@ export class RestaurantDetailComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Здесь можно показать уведомление (MatSnackBar): "Столик успешно забронирован!"
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        const successDialogRef = this.dialog.open(BookingSuccessDialogComponent, {
+          data: {
+            restaurantName: this.restaurant()?.name,
+            date: res.date || res.booking?.date,
+            startTime: res.startTime || res.booking?.startTime,
+            endTime: res.endTime || res.booking?.endTime
+          }
+        });
+
+        setTimeout(() => {
+          successDialogRef.close();
+        }, 3000);
       }
     });
   }

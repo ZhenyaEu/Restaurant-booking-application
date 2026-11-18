@@ -45,5 +45,33 @@
     "date": "2026-11-20",
     "startTime": "17:00",
     "endTime": "20:30"
+  },
+  {
+    "id": "1794994203438",
+    "restaurantId": 1,
+    "date": "2026-11-21",
+    "startTime": "10:30",
+    "endTime": "13:00"
+  },
+  {
+    "id": "1794995087245",
+    "restaurantId": 1,
+    "date": "2026-11-26",
+    "startTime": "11:00",
+    "endTime": "13:30"
+  },
+  {
+    "id": "1794995102572",
+    "restaurantId": 1,
+    "date": "2026-11-19",
+    "startTime": "11:00",
+    "endTime": "13:30"
+  },
+  {
+    "id": "1794995164141",
+    "restaurantId": 1,
+    "date": "2026-11-25",
+    "startTime": "20:30",
+    "endTime": "22:00"
   }
 ]
