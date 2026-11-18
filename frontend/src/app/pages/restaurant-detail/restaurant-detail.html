@@ -9,14 +9,18 @@
 
     <!-- Шапка с названием, адресом и кнопкой Book a table -->
     <div class="header-bar">
-      <div>
-        <h1>{{ rest.name }}</h1>
-        <p class="address">📍 {{ rest.address }}</p>
-      </div>
-      <div class="cta-box">
-        <app-button variant="primary" (click)="openBookingModal(restaurant)">Book a table</app-button>
-      </div>
+  <div>
+    <h1>{{ rest.name }}</h1>
+    <p class="address">📍 {{ rest.address }}</p>
+  </div>
+
+  <!-- Кнопка скрыта для Admin, но видна для Гостя и Customer -->
+  @if (authService.currentUser()?.role !== 'Admin') {
+    <div class="cta-box">
+      <app-button variant="primary" (click)="onBookTable()">Book a table</app-button>
     </div>
+  }
+</div>
 
     <!-- Блок подробной информации -->
     <div class="info-grid">
