@@ -68,15 +68,47 @@ const seedDatabase = async () => {
     const dishesCount = await Dish.countDocuments();
     if (dishesCount === 0) {
       await Dish.create({
-        name: 'Margherita Pizza',
-        description: 'Classic pizza with fresh tomatoes, mozzarella, and basil.',
-        price: 17,
-        imageUrl: `http://localhost:${PORT}/static/logo.png`
-      });
-      console.log('🍕 Добавлено стартовое блюдо в БД');
+        name: 'Hinkali',
+        description: 'Traditional Georgian soup dumplings filled with savory spiced beef, pork, fresh cilantro, and rich steaming broth, wrapped in thin pleated dough.',
+        price: 25,
+        imageUrl: `http://localhost:${PORT}/static/dishes/hinkali.jpg`
+      },
+        {
+          name: 'Assorti with walnuts (Pkhali & Badrijani)',
+          description: 'A vibrant selection of traditional Georgian vegetable pâtés and tender eggplant rolls blended with crushed walnuts, garlic, aromatic spices, and fresh pomegranate seeds.',
+          price: 35.5,
+          imageUrl: `http://localhost:${PORT}/static/dishes/assorti-with-walnuts.jpg`
+        },
+        {
+          name: 'Chicken served with lavash',
+          description: 'Juicy, chargrilled marinated chicken served over warm, freshly baked lavash flatbread with pickled onions and fresh herbs.',
+          price: 50,
+          imageUrl: `http://localhost:${PORT}/static/dishes/chicken-served-with-lavash.jpg
+`
+        },
+        {
+          name: 'Grilled vegetables',
+          description: 'A smoky medley of bell peppers, zucchini, eggplant, and tomatoes flame-grilled to tender perfection and drizzled with aromatic herb oil.',
+          price: 45.5,
+          imageUrl: `http://localhost:${PORT}/static/dishes/grilled-vegetables.jpg`
+        },
+        {
+          name: 'Khachapuri',
+          description: 'Warm, golden-baked Georgian flatbread generously filled with gooey, melted Sulguni and Imeretian cheeses.',
+          price: 27,
+          imageUrl: `http://localhost:${PORT}/static/dishes/hachapuri.jpg`
+        },
+        {
+          name: 'Pomegranate and basil salad',
+          description: 'A crisp, refreshing blend of ripe tomatoes, cucumbers, sweet red onions, and fragrant purple basil tossed in olive oil and topped with ruby-red pomegranate seeds.',
+          price: 19.99,
+          imageUrl: `http://localhost:${PORT}/static/dishes/pomegranate-and-basil-salad.jpg`
+        },
+      );
+      console.log('🍕 Added starter dishes to the DB');
     }
   } catch (err) {
-    console.error('Ошибка при инициализации данных БД:', err);
+    console.error('Error initializing DB data:', err);
   }
 };
 
