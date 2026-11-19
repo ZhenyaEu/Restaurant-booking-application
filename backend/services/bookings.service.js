@@ -1,20 +1,4 @@
-const fs = require('fs');
-const path = require('path');
-
-// Путь к нашему временному файлу-базе
-const DB_PATH = path.join(__dirname, '../data/bookings.json');
-
-// Читаем все брони из файла
-const readBookings = () => {
-  if (!fs.existsSync(DB_PATH)) return [];
-  const raw = fs.readFileSync(DB_PATH, 'utf-8');
-  return JSON.parse(raw || '[]');
-};
-
-// Записываем брони в файл
-const writeBookings = (data) => {
-  fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8');
-};
+const Booking = require('../models/Booking');
 
 const timeToMinutes = (timeStr) => {
   const [h, m] = timeStr.split(':').map(Number);
@@ -35,11 +19,8 @@ const getDayTimeline = async (restaurantId, dateStr, clientTimezoneOffset = 0) =
   const openMins = timeToMinutes('09:00');
   const closeMins = isWeekend ? timeToMinutes('23:00') : timeToMinutes('22:00');
 
-  // Берем брони из JSON-файла вместо MongoDB
-  const allBookings = readBookings();
-  const existingBookings = allBookings.filter(
-    b => b.restaurantId === restaurantId && b.date === dateStr
-  );
+  // Загружаем существующие брони из MongoDB
+  const existingBookings = await Booking.find({ restaurantId: String(restaurantId), date: dateStr });
 
   const blockedIntervals = existingBookings.map(b => ({
     start: timeToMinutes(b.startTime) - 30,
@@ -76,15 +57,7 @@ const getDayTimeline = async (restaurantId, dateStr, clientTimezoneOffset = 0) =
   return slots;
 };
 
-const createBooking = async ({
-  restaurantId,
-  date,
-  startTime,
-  endTime,
-  customerName,
-  customerEmail,
-  createdAt
-}) => {
+const createBooking = async ({ restaurantId, date, startTime, endTime, customerName, customerEmail }) => {
   const startMins = timeToMinutes(startTime);
   const endMins = timeToMinutes(endTime);
 
@@ -92,10 +65,7 @@ const createBooking = async ({
     throw new Error('Минимальная длительность бронирования — 30 минут');
   }
 
-  const allBookings = readBookings();
-  const existingBookings = allBookings.filter(
-    b => b.restaurantId === restaurantId && b.date === date
-  );
+  const existingBookings = await Booking.find({ restaurantId: String(restaurantId), date });
 
   const hasConflict = existingBookings.some(b => {
     const bStart = timeToMinutes(b.startTime);
@@ -107,25 +77,20 @@ const createBooking = async ({
     throw new Error('Выбранное время пересекается с другой бронью.');
   }
 
-  const newBooking = {
-    id: Date.now().toString(),
-    restaurantId,
+  const newBooking = await Booking.create({
+    restaurantId: String(restaurantId),
     date,
     startTime,
     endTime,
-    customerName: customerName || 'Customer',               // <-- 4. Сохраняем в JSON
-    customerEmail: customerEmail || 'No email provided',    // <-- 5. Сохраняем в JSON
-    createdAt: createdAt || new Date().toISOString()        // <-- 6. Сохраняем в JSON
-  };
+    customerName,
+    customerEmail
+  });
 
-  allBookings.push(newBooking);
-  writeBookings(allBookings); // Сохраняем в JSON
   return newBooking;
 };
 
-// 7. Добавляем функцию получения всех броней для официанта
 const getAllBookings = async () => {
-  return readBookings();
+  return await Booking.find().sort({ createdAt: -1 });
 };
 
 module.exports = { getDayTimeline, createBooking, getAllBookings };

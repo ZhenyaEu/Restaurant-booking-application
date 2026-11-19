@@ -46,20 +46,25 @@
     </div>
 
     <!-- Горизонтальная секция отзывов внизу -->
-    <section class="reviews-section">
-      <h2>Guest Reviews</h2>
-      <div class="reviews-row">
-        @for (review of rest.reviews; track review.id) {
-          <div class="review-card">
-            <div class="review-top">
-              <span class="review-author">{{ review.author }}</span>
-              <span class="review-rating">⭐ {{ review.rating }}/5</span>
-            </div>
-            <p class="review-comment">"{{ review.comment }}"</p>
-            <span class="review-date">{{ review.date }}</span>
+<section class="reviews-section">
+  <h2>Guest Reviews</h2>
+
+  @if (!rest.reviews || rest.reviews.length === 0) {
+    <p class="no-reviews">No reviews yet. Be the first to share your experience!</p>
+  } @else {
+    <div class="reviews-row">
+      @for (review of rest.reviews; track review.id) {
+        <div class="review-card">
+          <div class="review-top">
+            <span class="review-author">{{ review.author }}</span>
+            <span class="review-rating">⭐ {{ review.rating }}/5</span>
           </div>
-        }
-      </div>
-    </section>
+          <p class="review-comment">"{{ review.comment }}"</p>
+          <span class="review-date">{{ review.date }}</span>
+        </div>
+      }
+    </div>
+  }
+</section>
   </div>
 }

@@ -46,7 +46,7 @@ export class Home implements OnInit {
     });
   }
 
-  onDelete(id?: number) {
+  onDelete(id?: any) {
     if (!id) return;
 
     this.dishesService.deleteDish(id).subscribe({

@@ -13,19 +13,19 @@
   <div class="navbar-menu">
   @if (authService.currentUser()?.role === 'Waiter') {
     <!-- Для Waiter отображается только Orders -->
-    <app-button variant="text" routerLink="/orders">Orders</app-button>
-    <app-button variant="text" routerLink="/reservations">Reservations</app-button>
+    <app-button variant="text" routerLink="/orders" routerLinkActive="active-link">Orders</app-button>
+    <app-button variant="text" routerLink="/reservations" routerLinkActive="active-link">Reservations</app-button>
   } @else {
     <!-- Кнопки для Гостя, Customer и Admin -->
-    <app-button variant="text" routerLink="/">Main</app-button>
-    <app-button variant="text" routerLink="/restaurants">Restaurants</app-button>
+    <app-button variant="text" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Main</app-button>
+    <app-button variant="text" routerLink="/restaurants" routerLinkActive="active-link">Restaurants</app-button>
     
     @if (authService.currentUser()?.role !== 'Admin') {
-      <app-button variant="text" routerLink="/about">About</app-button>
+      <app-button variant="text" routerLink="/about" routerLinkActive="active-link">About</app-button>
     }
     
     @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Admin') {
-      <app-button variant="text" routerLink="/admin">Admin Panel</app-button>
+      <app-button variant="text" routerLink="/admin" routerLinkActive="active-link">Admin Panel</app-button>
     }
   }
 </div>

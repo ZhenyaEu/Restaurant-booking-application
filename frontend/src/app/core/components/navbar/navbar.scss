@@ -31,6 +31,29 @@
     gap: 1rem;
     justify-content: center;
     flex-grow: 1; // Заставляет блок кнопок занять центр
+
+    app-button.active-link {
+    position: relative;
+
+    // Делаем текст кнопки чуть темнее и акцентнее
+    ::ng-deep button {
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    // Мягкая оранжевая полоса снизу
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 15%;
+      width: 70%;
+      height: 3px;
+      background-color: #fb923c; // Мягкий теплый оранжевый цвет
+      border-radius: 3px;
+      transition: all 0.25s ease-in-out;
+    }
+  }
   }
 
   &-actions {

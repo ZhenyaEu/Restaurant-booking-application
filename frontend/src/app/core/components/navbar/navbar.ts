@@ -1,6 +1,6 @@
 import { Component, signal, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog'; // Импортируем Dialog
 
 import { ButtonComponent } from '../../../shared/components/button/button';
@@ -12,7 +12,7 @@ import { CartService } from '../../services/cart';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [ButtonComponent, RouterLink, MatDialogModule], 
+  imports: [ButtonComponent, RouterLink, RouterLinkActive, MatDialogModule], 
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss'
 })

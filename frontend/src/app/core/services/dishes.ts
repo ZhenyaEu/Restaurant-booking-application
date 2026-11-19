@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Dish {
-  id?: number;
+  id?: any;
   name: string;
   description: string;
   price: number;

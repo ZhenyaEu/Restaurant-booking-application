@@ -15,7 +15,7 @@ export const routes: Routes = [
   // Если адрес пустой (http://localhost:4200), показываем Главную
   { path: '', component: Home }, 
   { path: 'restaurants', component: RestaurantsComponent, canActivate: [notWaiterGuard] },
-  { path: 'restaurant/:id', component: RestaurantDetailComponent, canActivate: [notWaiterGuard] },
+  { path: 'restaurants/:id', component: RestaurantDetailComponent, canActivate: [notWaiterGuard] },
   
   // Если адрес http://localhost:4200/about, показываем страницу About
   { path: 'about', component: About },
