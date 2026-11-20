@@ -1,4 +1,5 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { DishesService, Dish } from '../../core/services/dishes';
@@ -10,7 +11,7 @@ import { CartService } from '../../core/services/cart';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ButtonComponent, MatDialogModule, MatSnackBarModule],
+  imports: [ButtonComponent, MatDialogModule, MatSnackBarModule, FormsModule],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
@@ -22,6 +23,29 @@ export class Home implements OnInit {
   private snackBar = inject(MatSnackBar);
 
   dishes = signal<Dish[]>([]);
+
+  searchQuery = signal<string>('');
+  sortOrder = signal<'default' | 'asc' | 'desc'>('default');
+
+  // Автоматически пересчитываемый список блюд при каждом изменении поиска или сортировки
+  filteredDishes = computed(() => {
+    const query = this.searchQuery().toLowerCase().trim();
+    const order = this.sortOrder();
+    
+    // 1. Фильтрация по названию
+    let result = this.dishes().filter(dish => 
+      dish.name.toLowerCase().includes(query)
+    );
+
+    // 2. Сортировка по цене
+    if (order === 'asc') {
+      result = [...result].sort((a, b) => a.price - b.price);
+    } else if (order === 'desc') {
+      result = [...result].sort((a, b) => b.price - a.price);
+    }
+
+    return result;
+  });
 
   ngOnInit() {
     this.dishesService.getDishes().subscribe({
@@ -70,3 +94,4 @@ export class Home implements OnInit {
   }
 
 }
+

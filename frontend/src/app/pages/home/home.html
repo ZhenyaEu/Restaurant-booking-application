@@ -4,34 +4,61 @@
     <p>Explore high-quality dishes prepared fresh every single day.</p>
   </header>
 
-  <div class="dishes-grid">
-    @for (dish of dishes(); track dish.id) {
-      <div class="dish-card">
-        <div class="dish-image-wrapper">
-          <img [src]="dish.imageUrl" [alt]="dish.name" class="dish-img">
-        </div>
+  <!-- Панель поиска и сортировки справа сверху над сеткой -->
+  <div class="controls-bar">
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="Search dish by name..." 
+        [ngModel]="searchQuery()" 
+        (ngModelChange)="searchQuery.set($event)"
+      />
+      @if (searchQuery()) {
+        <button class="clear-btn" (click)="searchQuery.set('')">✕</button>
+      }
+    </div>
 
-        <div class="dish-info">
-          <h3 class="dish-name">{{ dish.name }}</h3>
-          <p class="dish-desc">{{ dish.description }}</p>
+    <div class="sort-box">
+      <select [ngModel]="sortOrder()" (ngModelChange)="sortOrder.set($event)">
+        <option value="default">Sort by price: Default</option>
+        <option value="asc">Price: Low to High ↑</option>
+        <option value="desc">Price: High to Low ↓</option>
+      </select>
+    </div>
+  </div>
 
-          <!-- Нижняя панель карточки, видимая для всех ролей -->
-          <div class="dish-footer">
-            <span class="dish-price">{{ dish.price }}$</span>
+  <!-- Выводим отфильтрованный список filteredDishes() -->
+  @if (filteredDishes().length === 0) {
+    <p class="no-results">No dishes found matching "{{ searchQuery() }}".</p>
+  } @else {
+    <div class="dishes-grid">
+      @for (dish of filteredDishes(); track dish.id) {
+        <div class="dish-card">
+          <!-- Весь внутренний код карточки остается без изменений -->
+          <div class="dish-image-wrapper">
+            <img [src]="dish.imageUrl" [alt]="dish.name" class="dish-img">
+          </div>
+          <div class="dish-info">
+            <h3 class="dish-name">{{ dish.name }}</h3>
+            <p class="dish-desc">{{ dish.description }}</p>
+            
+            <div class="dish-footer">
+              <span class="dish-price">{{ dish.price }}$</span>
 
-            <!-- Кнопка видна ТОЛЬКО для Customer -->
-            @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Customer') {
-              <app-button variant="primary" (click)="onAddToCart(dish)">Add</app-button>
-            }
-             @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Admin') {
-              <div class="admin-actions">
-                <button class="btn-edit" (click)="onEdit(dish)">Edit</button>
-                <button class="btn-delete" (click)="onDelete(dish.id)">Delete</button>
-              </div>
-            }
+              @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Customer') {
+                <app-button variant="primary" (click)="onAddToCart(dish)">Add</app-button>
+              }
+
+              @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Admin') {
+                <div class="admin-actions">
+                  <button class="btn-edit" (click)="onEdit(dish)">Edit</button>
+                  <button class="btn-delete" (click)="onDelete(dish.id)">Delete</button>
+                </div>
+              }
+            </div>
           </div>
         </div>
-      </div> <!-- Закрываем dish-card ВНУТРИ цикла -->
-    } <!-- Закрываем @for -->
-  </div> <!-- Закрываем dishes-grid -->
-</div> <!-- Закрываем home-container -->
+      }
+    </div>
+  }
+</div>
