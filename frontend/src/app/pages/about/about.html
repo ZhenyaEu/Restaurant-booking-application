@@ -1,53 +1,69 @@
-<section class="about-section">
-  <!-- Hero / Intro -->
-  <div class="about-container">
-    <header class="about-header">
-      <span class="eyebrow">Our Story &amp; Philosophy</span>
-      <h1 class="headline">
-        Where Culinary Heritage Meets <em>Modern Alchemy</em>
-      </h1>
-      <p class="lead-text">
-        Founded in 2018, <strong>Aurelia</strong> was born from a simple obsession: to strip away the unnecessary and celebrate ingredients in their purest, most expressive form.
+<div class="about-container">
+  <!-- Верхний приветственный блок с фирменным мятным градиентом -->
+  <section class="about-hero">
+    <span class="subtitle">Authentic Taste & Hospitality</span>
+    <h1>About Our Georgian Restaurant Chain in Dnipro</h1>
+    <p class="lead">
+      We bring the warmth of Caucasian hospitality, centuries-old culinary traditions, 
+      and fresh farm-to-table ingredients to the heart of Dnipro.
+    </p>
+  </section>
+
+  <!-- Основная история -->
+  <section class="story-section">
+    <div class="story-content">
+      <h2>Our Story</h2>
+      <p>
+        Founded in Dnipro with a deep passion for Georgian culture, our chain began with a simple mission: 
+        to share the true spirit of a traditional Georgian supra (feast) with every guest. From our cozy 
+        locations on Soborna Square and Dmytra Yavornytskoho Avenue to Sichovykh Striltsiv Street, 
+        each restaurant is designed as a welcoming haven where friends and families gather.
       </p>
-    </header>
+      <p>
+        Every morning, our bakers fire up the traditional clay tone oven to bake golden shoti bread, 
+        while our chefs hand-fold juicy khinkali and prepare freshly baked Adjarian khachapuri using 
+        authentic spices brought directly from Georgia.
+      </p>
+    </div>
+  </section>
 
-    <!-- Editorial Split Block -->
-    <div class="story-grid">
-      <div class="image-frame">
-        <img
-          src="https://unsplash.com"
-          alt="Chef plating a signature dish"
-          loading="lazy"
-        />
-        <div class="image-caption">Crafted with patience in the heart of the city.</div>
-      </div>
-
-      <div class="story-content">
-        <h2>A Dialogue Between Fire, Earth, and Time</h2>
-        <p>
-          What began as a twelve-seat supper club has evolved into an intimate sanctuary for the curious palate. Our kitchen operates without freezers or shortcuts—only honest produce harvested at peak ripeness, aged in-house, and transformed over live fire.
-        </p>
-        <p>
-          Each plate tells a story of the hands that nurtured it, from the artisan ceramicists who shape our tableware to the independent winemakers whose biodynamic bottles line our cellar.
-        </p>
-
-        <blockquote class="chef-quote">
-          <p>“We don’t cook to impress; we cook to evoke a memory you haven’t had yet.”</p>
-          <footer>
-            <span class="chef-name">Julian Vance</span>
-            <span class="chef-role">Executive Chef &amp; Founder</span>
-          </footer>
-        </blockquote>
-      </div>
+  <!-- Три карточки ключевых ценностей -->
+  <section class="values-grid">
+    <div class="value-card">
+      <div class="icon">🔥</div>
+      <h3>Traditional Recipes</h3>
+      <p>
+        We stay true to time-honored Georgian cooking techniques, using real clay qvevri vessels, 
+        wood-fired ovens, and authentic Svanetian salt.
+      </p>
     </div>
 
-    <!-- Three Pillars -->
-    <div class="pillars-section">
-      <div class="pillar-card" *ngFor="let item of pillars">
-        <span class="pillar-number">{{ item.number }}</span>
-        <h3 class="pillar-title">{{ item.title }}</h3>
-        <p class="pillar-desc">{{ item.description }}</p>
-      </div>
+    <div class="value-card">
+      <div class="icon">🌿</div>
+      <h3>Fresh Local Ingredients</h3>
+      <p>
+        We partner with trusted local farmers in the Dnipropetrovsk region to source crisp herbs, 
+        ripe tomatoes, tender meats, and artisanal sulguni cheese daily.
+      </p>
     </div>
-  </div>
-</section>
+
+    <div class="value-card">
+      <div class="icon">🍷</div>
+      <h3>Georgian Hospitality</h3>
+      <p>
+        In Georgia, a guest is considered a gift from God. Whether you dine in with us or order online, 
+        we treat every visitor like family.
+      </p>
+    </div>
+  </section>
+
+  <!-- Призыв к действию (CTA) -->
+  <section class="cta-banner">
+    <h2>Ready to Experience True Georgian Flavor?</h2>
+    <p>Explore our freshly prepared dishes or reserve a cozy table at one of our Dnipro locations.</p>
+    <div class="cta-buttons">
+      <app-button variant="primary" routerLink="/">Explore Menu</app-button>
+      <app-button variant="primary" routerLink="/restaurants">Our Restaurants</app-button>
+    </div>
+  </section>
+</div>

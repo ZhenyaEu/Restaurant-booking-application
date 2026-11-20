@@ -1,35 +1,12 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-interface Pillar {
-  number: string;
-  title: string;
-  description: string;
-}
+import { RouterLink } from '@angular/router';
+import { ButtonComponent } from '../../shared/components/button/button';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule],
+  imports: [RouterLink, ButtonComponent],
   templateUrl: './about.html',
-  styleUrls: ['./about.scss']
+  styleUrl: './about.scss'
 })
-export class About {
-  pillars: Pillar[] = [
-    {
-      number: '01',
-      title: 'Seasonal Terroir',
-      description: 'We partner exclusively with local micro-farms and coastal foragers, letting the rhythm of nature dictate our daily menu.'
-    },
-    {
-      number: '02',
-      title: 'Open-Fire Craft',
-      description: 'Every dish is kissed by white oak embers, marrying centuries-old culinary techniques with contemporary precision.'
-    },
-    {
-      number: '03',
-      title: 'Unscripted Warmth',
-      description: 'Hospitality is an art of intuition. We believe fine dining should feel like an intimate evening at a close friend’s table.'
-    }
-  ];
-}
+export class About {}
