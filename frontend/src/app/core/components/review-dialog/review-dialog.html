@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>
+  {{ data.existingReview ? 'Edit Your Review' : 'Leave a Review' }} — {{ data.restaurantName }}
+</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="reviewForm" class="dialog-form">
+    
+    <!-- Кликабельные звездочки -->
+    <div class="rating-picker">
+      <span class="rating-label">Your Rating:</span>
+      <div class="stars-row" (mouseleave)="hoverRating.set(0)">
+        @for (star of stars; track star) {
+          <button 
+            type="button" 
+            class="star-btn" 
+            [class.filled]="star <= (hoverRating() || selectedRating())"
+            (mouseenter)="hoverRating.set(star)"
+            (click)="setRating(star)">
+            ★
+          </button>
+        }
+      </div>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Share your experience</mat-label>
+      <textarea matInput rows="4" formControlName="comment" placeholder="Write about food, service, and atmosphere..."></textarea>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button class="btn-cancel" (click)="onCancel()">Cancel</button>
+  <button class="btn-submit" [disabled]="reviewForm.invalid" (click)="onSubmit()">
+    {{ data.existingReview ? 'Update Review' : 'Submit Review' }}
+  </button>
+</mat-dialog-actions>

@@ -152,3 +152,24 @@
   color: #64748b; 
   font-style: italic;
 }
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  h2 { margin: 0; }
+}
+
+.review-card.my-review {
+  border-color: #86efac;
+  background: #f0fdf4;
+}
+
+.you-badge {
+  font-size: 0.8rem;
+  color: #15803d;
+  font-weight: 600;
+  margin-left: 0.3rem;
+}

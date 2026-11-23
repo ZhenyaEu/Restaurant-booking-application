@@ -8,7 +8,7 @@
     @for (restaurant of restaurants(); track restaurant.id) {
       <div class="restaurant-card">
         <div class="card-image-wrapper">
-          <img [src]="restaurant.imageUrl" [alt]="restaurant.name" class="restaurant-img">
+          <img [src]="restaurant.imageUrl" [alt]="restaurant.name" class="restaurant-img" [routerLink]="['/restaurants', restaurant.id]">
         </div>
         <div class="card-info">
           <h3 class="restaurant-name">{{ restaurant.name }}</h3>

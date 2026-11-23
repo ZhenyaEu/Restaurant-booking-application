@@ -1,12 +1,13 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { RestaurantsService, Restaurant } from '../../core/services/restaurants';
+import { RestaurantsService, Restaurant, Review } from '../../core/services/restaurants';
 import { ButtonComponent } from '../../shared/components/button/button';
 import { MatDialog } from '@angular/material/dialog';
 import { BookTableDialogComponent } from '../../core/components/book-table-dialog.ts/book-table-dialog';
 import { AuthService } from '../../core/services/auth';
 import { RegisterDialogComponent } from '../../core/components/register-dialog/register-dialog';
 import { BookingSuccessDialogComponent } from '../../core/components/booking-success-dialog/booking-success-dialog';
+import { ReviewDialogComponent } from '../../core/components/review-dialog/review-dialog';
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -23,6 +24,17 @@ export class RestaurantDetailComponent implements OnInit {
 
   restaurant = signal<Restaurant | null>(null);
 
+  // Находим отзыв текущего авторизованного Customer, если он уже его оставлял
+  myReview = computed<Review | undefined>(() => {
+    const user = this.authService.currentUser();
+    const rest = this.restaurant();
+    if (!user || !rest?.reviews) return undefined;
+
+    // Сравниваем по userId или по полному имени
+    const fullName = `${user.firstName} ${user.secondName}`;
+    return rest.reviews.find(r => (user.id && r.userId === user.id) || r.author === fullName);
+  });
+
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
@@ -31,6 +43,40 @@ export class RestaurantDetailComponent implements OnInit {
         error: (err) => console.error('Error loading restaurant details', err)
       });
     }
+  }
+
+  onOpenReviewDialog() {
+    const rest = this.restaurant();
+    if (!rest) return;
+
+    const dialogRef = this.dialog.open(ReviewDialogComponent, {
+      data: {
+        restaurantId: rest.id,
+        restaurantName: rest.name,
+        existingReview: this.myReview()
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((savedReview: Review | undefined) => {
+      if (savedReview) {
+        // Обновляем список отзывов на экране без перезагрузки страницы
+        this.restaurant.update(current => {
+          if (!current) return null;
+          const existingList = current.reviews || [];
+          const index = existingList.findIndex(r => r.id === savedReview.id);
+
+          let updatedReviews: Review[];
+          if (index > -1) {
+            updatedReviews = [...existingList];
+            updatedReviews[index] = savedReview;
+          } else {
+            updatedReviews = [...existingList, savedReview];
+          }
+
+          return { ...current, reviews: updatedReviews };
+        });
+      }
+    });
   }
 
   onBookTable() {

@@ -12,11 +12,13 @@
     display: flex;
     align-items: center;
     min-width: 120px;
+    
 
     .logo-img {
       height: 40px;
       width: auto;
       object-fit: contain;
+      cursor: pointer;
     }
 
     .logo-placeholder {

@@ -7,6 +7,7 @@ import { CartService } from './cart';
 export interface AuthResponse {
   token: string;
   user: {
+    id?: string
     firstName: string;
     secondName: string;
     role: 'Admin' | 'Customer' | 'Waiter';

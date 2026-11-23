@@ -1,7 +1,30 @@
 const express = require('express');
-const router = express.Router();
+const jwt = require('jsonwebtoken');
+const Review = require('../models/Review');
+const User = require('../models/User');
 
+const router = express.Router();
 const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET || 'my_super_secret_key_123';
+
+// Мидлвар проверки роли Customer
+const isCustomer = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  try {
+    const decoded = jwt.verify(authHeader.split(' ')[1], JWT_SECRET);
+    if (decoded.role !== 'Customer') {
+      return res.status(403).json({ message: 'Only customers can leave reviews' });
+    }
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+};
+
 
 // Моковая база ресторанов и отзывов
 const restaurants = [
@@ -55,7 +78,7 @@ const restaurants = [
   }
 ];
 
-// Получить краткий список всех ресторанов (для страницы /restaurants)
+//Получить список всех ресторанов
 router.get('/', (req, res) => {
   const summaryList = restaurants.map(({ id, name, address, imageUrl }) => ({
     id,
@@ -66,16 +89,77 @@ router.get('/', (req, res) => {
   res.json(summaryList);
 });
 
-// Получить полную информацию о конкретном ресторане + отзывы (для /restaurant/:id)
-router.get('/:id', (req, res) => {
-  const id = Number(req.params.id);
-  const restaurant = restaurants.find(r => r.id === id);
+// Получить ресторан + объединенные отзывы (моковые + из MongoDB)
+router.get('/:id', async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const restaurant = restaurants.find(r => r.id === id);
 
-  if (!restaurant) {
-    return res.status(404).json({ message: 'Restaurant not found' });
+    if (!restaurant) {
+      return res.status(404).json({ message: 'Restaurant not found' });
+    }
+
+    // Загружаем реальные отзывы из MongoDB для этого ресторана
+    const dbReviews = await Review.find({ restaurantId: id });
+    const formattedDbReviews = dbReviews.map(r => ({
+      id: r._id.toString(),
+      userId: r.userId.toString(),
+      author: r.author,
+      rating: r.rating,
+      date: r.date,
+      comment: r.comment
+    }));
+
+    res.json({
+      ...restaurant,
+      reviews: [...restaurant.reviews, ...formattedDbReviews]
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
+});
 
-  res.json(restaurant);
+// Создать или обновить отзыв (1 отзыв на ресторан от 1 Customer)
+router.post('/:id/reviews', isCustomer, async (req, res) => {
+  try {
+    const restaurantId = Number(req.params.id);
+    const { rating, comment } = req.body;
+
+    if (!rating || !comment) {
+      return res.status(400).json({ message: 'Rating and comment are required' });
+    }
+
+    const user = await User.findById(req.user.id);
+    const authorName = user ? `${user.firstName} ${user.secondName}` : 'Customer';
+    const formattedDate = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    // Ищем существующий отзыв этого пользователя для этого ресторана и обновляем, либо создаем новый
+    const review = await Review.findOneAndUpdate(
+      { restaurantId, userId: req.user.id },
+      {
+        author: authorName,
+        rating: Number(rating),
+        comment,
+        date: formattedDate
+      },
+      { new: true, upsert: true }
+    );
+
+    res.status(201).json({
+      id: review._id.toString(),
+      userId: review.userId.toString(),
+      author: review.author,
+      rating: review.rating,
+      date: review.date,
+      comment: review.comment
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 module.exports = router;

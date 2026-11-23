@@ -161,7 +161,7 @@ app.post('/api/register', async (req, res) => {
 
     res.status(201).json({
       token,
-      user: { firstName: newUser.firstName, secondName: newUser.secondName, email: newUser.email, role: newUser.role }
+      user: { id: newUser._id.toString(), firstName: newUser.firstName, secondName: newUser.secondName, email: newUser.email, role: newUser.role }
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -179,7 +179,7 @@ app.post('/api/login', async (req, res) => {
 
     res.json({
       token,
-      user: { firstName: user.firstName, secondName: user.secondName, email: user.email, role: user.role }
+      user: { id: user._id.toString(),firstName: user.firstName, secondName: user.secondName, email: user.email, role: user.role }
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
