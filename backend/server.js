@@ -16,6 +16,9 @@ const Order = require('./models/Order');
 // Роутеры
 const restaurantRoutes = require('./routes/restaurants');
 const bookingRoutes = require('./routes/bookings.routes');
+const customerRoutes = require('./routes/customer');
+
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -115,6 +118,7 @@ const seedDatabase = async () => {
 // Подключаем модульные роуты
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/customer', customerRoutes);
 
 // Мидлвары авторизации
 const verifyToken = (req, res, next) => {

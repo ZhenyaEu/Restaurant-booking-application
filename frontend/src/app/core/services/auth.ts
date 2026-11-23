@@ -80,4 +80,26 @@ export class AuthService {
       this.router.navigate(['/admin']);
     }
   }
+
+  
+
+updateProfile(data: { firstName: string; secondName: string }) {
+  return this.http.put<AuthResponse['user']>(`${this.apiUrl}/customer/profile`, data).pipe(
+    tap(updatedUser => {
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      this.currentUser.set(updatedUser);
+    })
+  );
+}
+
+deleteAccount() {
+  return this.http.delete(`${this.apiUrl}/customer/profile`).pipe(
+    tap(() => this.logout())
+  );
+}
+
+getCustomerHistory() {
+  return this.http.get<{ orders: any[]; bookings: any[] }>(`${this.apiUrl}/customer/history`);
+}
+
 }
