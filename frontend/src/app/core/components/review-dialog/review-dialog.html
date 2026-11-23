@@ -3,7 +3,8 @@
 </h2>
 
 <mat-dialog-content>
-  <form [formGroup]="reviewForm" class="dialog-form">
+  <!-- 1. Добавили id="reviewForm" и обработчик (ngSubmit)="onSubmit()" -->
+  <form id="reviewForm" [formGroup]="reviewForm" class="dialog-form" (ngSubmit)="onSubmit()">
     
     <!-- Кликабельные звездочки -->
     <div class="rating-picker">
@@ -24,15 +25,23 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Share your experience</mat-label>
-      <textarea matInput rows="4" formControlName="comment" placeholder="Write about food, service, and atmosphere..."></textarea>
+      <!-- 2. Добавили (keydown.enter), так как в textarea обычный Enter делает перенос строки -->
+      <textarea 
+        matInput 
+        rows="4" 
+        formControlName="comment" 
+        placeholder="Write about food, service, and atmosphere..."
+        (keydown.enter)="$event.preventDefault(); onSubmit()">
+      </textarea>
     </mat-form-field>
 
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button class="btn-cancel" (click)="onCancel()">Cancel</button>
-  <button class="btn-submit" [disabled]="reviewForm.invalid" (click)="onSubmit()">
+  <button class="btn-cancel" type="button" (click)="onCancel()">Cancel</button>
+  <!-- 3. Привязали кнопку к форме через form="reviewForm" и убрали дублирующий (click) -->
+  <button class="btn-submit" type="submit" form="reviewForm" [disabled]="reviewForm.invalid">
     {{ data.existingReview ? 'Update Review' : 'Submit Review' }}
   </button>
 </mat-dialog-actions>

@@ -1,60 +1,116 @@
 <nav class="navbar">
-  <!-- Логотип слева -->
-  <div class="navbar-logo" routerLink="/">
-    @if (logoUrl()) {
-      <img [src]="logoUrl()" alt="Logo" class="logo-img" />
+  <!-- 1. Логотип слева -->
+  <div class="navbar-logo">
+    <a routerLink="/" (click)="closeMobileMenu()">
+      @if (logoUrl()) {
+        <img [src]="logoUrl()" alt="Logo" class="logo-img" />
+      } @else {
+        <span class="logo-placeholder">Loading...</span>
+      }
+    </a>
+  </div>
+
+  <!-- 2. Десктопное меню по центру (скрывается на мобильных) -->
+  <div class="navbar-menu desktop-only">
+    @if (authService.currentUser()?.role === 'Waiter') {
+      <app-button variant="text" routerLink="/orders" routerLinkActive="active-link">Orders</app-button>
+      <app-button variant="text" routerLink="/reservations" routerLinkActive="active-link">Reservations</app-button>
     } @else {
-      <!-- Плейсхолдер, пока данные с бэкенда грузятся -->
-      <span class="logo-placeholder">Loading...</span>
+      <app-button variant="text" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Main</app-button>
+      <app-button variant="text" routerLink="/restaurants" routerLinkActive="active-link">Restaurants</app-button>
+      
+      @if (authService.currentUser()?.role !== 'Admin') {
+        <app-button variant="text" routerLink="/about" routerLinkActive="active-link">About</app-button>
+      }
+      
+      @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Admin') {
+        <app-button variant="text" routerLink="/admin" routerLinkActive="active-link">Admin Panel</app-button>
+      }
     }
   </div>
 
-  <!-- Кнопки по центру -->
-  <div class="navbar-menu">
-  @if (authService.currentUser()?.role === 'Waiter') {
-    <!-- Для Waiter отображается только Orders -->
-    <app-button variant="text" routerLink="/orders" routerLinkActive="active-link">Orders</app-button>
-    <app-button variant="text" routerLink="/reservations" routerLinkActive="active-link">Reservations</app-button>
-  } @else {
-    <!-- Кнопки для Гостя, Customer и Admin -->
-    <app-button variant="text" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Main</app-button>
-    <app-button variant="text" routerLink="/restaurants" routerLinkActive="active-link">Restaurants</app-button>
-    
-    @if (authService.currentUser()?.role !== 'Admin') {
-      <app-button variant="text" routerLink="/about" routerLinkActive="active-link">About</app-button>
+  <!-- 3. Десктопные действия справа (скрываются на мобильных) -->
+  <div class="navbar-actions desktop-only">
+    @if (!authService.isAuthenticated()) {
+      <app-button variant="text" (click)="openLogin()">Log In</app-button>
+      <app-button variant="text" (click)="openRegister()">Sign UP</app-button>
+    } @else {
+      <div class="user-profile">
+        @if (authService.currentUser()?.role === 'Customer') {
+          <app-button variant="text" (click)="cartService.toggleCart()">
+            Cart ({{ cartService.totalCount() }})
+          </app-button>
+        }
+
+        <span class="user-info">
+          {{ authService.currentUser()?.firstName }} 
+          <b class="role-badge" [class.admin]="authService.currentUser()?.role === 'Admin'">
+            [{{ authService.currentUser()?.role }}]
+          </b>
+        </span>
+        <app-button variant="text" (click)="onLogout()">Log Out</app-button>
+      </div>
     }
-    
-    @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Admin') {
-      <app-button variant="text" routerLink="/admin" routerLinkActive="active-link">Admin Panel</app-button>
+  </div>
+
+  <!-- 4. Мобильная панель справа: Корзина (для Customer) + Кнопка Бургер -->
+  <div class="mobile-controls">
+    @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Customer') {
+      <app-button variant="text" (click)="cartService.toggleCart()">
+        Cart ({{ cartService.totalCount() }})
+      </app-button>
     }
-  }
-</div>
 
+    <button class="burger-btn" (click)="toggleMobileMenu()" aria-label="Toggle Menu">
+      @if (isMobileMenuOpen()) {
+        <span>✕</span>
+      } @else {
+        <span>☰</span>
+      }
+    </button>
+  </div>
 
-
-  <!-- Кнопка справа -->
-  <div class="navbar-actions">
-  @if (!authService.isAuthenticated()) {
-    <app-button variant="text" (click)="openLogin()">Log In</app-button>
-    <app-button variant="text" (click)="openRegister()">Sign UP</app-button>
-  } @else {
-    <div class="user-profile">
-      <!-- Кнопка корзины видна ТОЛЬКО для Customer -->
-      @if (authService.currentUser()?.role === 'Customer') {
-        <app-button variant="text" (click)="cartService.toggleCart()">
-          Cart ({{ cartService.totalCount() }})
-        </app-button>
+  <!-- 5. Выпадающее мобильное меню -->
+  @if (isMobileMenuOpen()) {
+    <div class="mobile-dropdown">
+      <!-- Информация о пользователе вверху меню (если вошел) -->
+      @if (authService.isAuthenticated()) {
+        <div class="mobile-user-banner">
+          <span>Signed in as <b>{{ authService.currentUser()?.firstName }} {{ authService.currentUser()?.secondName }}</b></span>
+          <b class="role-badge" [class.admin]="authService.currentUser()?.role === 'Admin'">
+            {{ authService.currentUser()?.role }}
+          </b>
+        </div>
       }
 
-      <span class="user-info">
-        {{ authService.currentUser()?.firstName }} 
-        <b class="role-badge" [class.admin]="authService.currentUser()?.role === 'Admin'">
-          [{{ authService.currentUser()?.role }}]
-        </b>
-      </span>
-      <app-button variant="text" (click)="onLogout()">Log Out</app-button>
+      <!-- Навигационные ссылки -->
+      <div class="mobile-links">
+        @if (authService.currentUser()?.role === 'Waiter') {
+          <app-button variant="text" routerLink="/orders" routerLinkActive="active-link" (click)="closeMobileMenu()">Orders</app-button>
+          <app-button variant="text" routerLink="/reservations" routerLinkActive="active-link" (click)="closeMobileMenu()">Reservations</app-button>
+        } @else {
+          <app-button variant="text" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMobileMenu()">Main</app-button>
+          <app-button variant="text" routerLink="/restaurants" routerLinkActive="active-link" (click)="closeMobileMenu()">Restaurants</app-button>
+          
+          @if (authService.currentUser()?.role !== 'Admin') {
+            <app-button variant="text" routerLink="/about" routerLinkActive="active-link" (click)="closeMobileMenu()">About</app-button>
+          }
+          
+          @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Admin') {
+            <app-button variant="text" routerLink="/admin" routerLinkActive="active-link" (click)="closeMobileMenu()">Admin Panel</app-button>
+          }
+        }
+      </div>
+
+      <!-- Кнопки авторизации / выхода -->
+      <div class="mobile-auth-actions">
+        @if (!authService.isAuthenticated()) {
+          <app-button variant="text" (click)="openLogin()">Log In</app-button>
+          <app-button variant="primary" (click)="openRegister()">Sign UP</app-button>
+        } @else {
+          <app-button variant="text" (click)="onLogout()">Log Out</app-button>
+        }
+      </div>
     </div>
   }
-</div>
-
 </nav>

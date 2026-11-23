@@ -1,7 +1,8 @@
 <h2 mat-dialog-title>Log In</h2>
 
 <mat-dialog-content>
-  <form [formGroup]="loginForm" class="dialog-form" (ngSubmit)="onSubmit()">
+  <!-- 1. Добавляем id="loginForm" для формы -->
+  <form id="loginForm" [formGroup]="loginForm" class="dialog-form" (ngSubmit)="onSubmit()">
     
     <mat-form-field appearance="outline">
       <mat-label>Enter Email</mat-label>
@@ -20,6 +21,9 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button class="btn-cancel" (click)="onCancel()">Cancel</button>
-  <button class="btn-submit" [disabled]="loginForm.invalid" (click)="onSubmit()">Submit</button>
+  <!-- 2. Указываем type="button", чтобы Cancel случайно не срабатывала как submit -->
+  <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
+  
+  <!-- 3. Связываем кнопку с формой через form="loginForm" и ставим type="submit" -->
+  <button type="submit" form="loginForm" class="btn-submit" [disabled]="loginForm.invalid">Submit</button>
 </mat-dialog-actions>

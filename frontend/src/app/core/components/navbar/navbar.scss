@@ -1,24 +1,38 @@
 .navbar {
-  display: flex;
-  justify-content: space-between;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; // Левая и правая части равны, центр всегда по центру
   align-items: center;
+  gap: 1rem; // Минимальный зазор, чтобы блоки никогда не слипались и не наползали друг на друга
+  width: 100%;
+  box-sizing: border-box;
   padding: 0.75rem 2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  
-  // Легкий зеленоватый градиент (от мягкого мятного к белому)
   background: linear-gradient(135deg, #e8f5e9 0%, #ffffff 100%);
+  z-index: 100;
+
+  @media (max-width: 960px) {
+    padding: 0.75rem 1rem;
+    // На планшетах/мобильных возвращаем flex для логотипа слева и бургера справа
+    display: flex;
+    justify-content: space-between;
+  }
 
   &-logo {
+    justify-self: start; // Прижимаем логотип строго влево
     display: flex;
     align-items: center;
-    min-width: 120px;
-    
+
+    a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
 
     .logo-img {
       height: 40px;
       width: auto;
       object-fit: contain;
-      cursor: pointer;
     }
 
     .logo-placeholder {
@@ -29,61 +43,162 @@
   }
 
   &-menu {
+    justify-self: center; // Держим меню строго по центру навбара
     display: flex;
     gap: 1rem;
     justify-content: center;
-    flex-grow: 1; // Заставляет блок кнопок занять центр
+    white-space: nowrap; // Запрещаем перенос текста кнопок на вторую строку
 
     app-button.active-link {
-    position: relative;
+      position: relative;
 
-    // Делаем текст кнопки чуть темнее и акцентнее
-    ::ng-deep button {
-      color: #0f172a;
-      font-weight: 600;
-    }
+      ::ng-deep button {
+        color: #0f172a;
+        font-weight: 600;
+      }
 
-    // Мягкая оранжевая полоса снизу
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 15%;
-      width: 70%;
-      height: 3px;
-      background-color: #fb923c; // Мягкий теплый оранжевый цвет
-      border-radius: 3px;
-      transition: all 0.25s ease-in-out;
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 15%;
+        width: 70%;
+        height: 3px;
+        background-color: #fb923c;
+        border-radius: 3px;
+        transition: all 0.25s ease-in-out;
+      }
     }
-  }
   }
 
   &-actions {
+    justify-self: end; // Прижимаем правый блок строго вправо
     display: flex;
     justify-content: flex-end;
-    min-width: 120px;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
   }
 }
 
-button {
-  font-family: inherit;
-  font-size: 0.95rem; /* Чуть уменьшаем базовый размер для аккуратности интерфейса */
-  font-weight: 500;   /* Делаем текст кнопок медиум (полужирным), так он читается отчетливее */
-  letter-spacing: 0.01em; /* Небольшое расстояние между буквами для читаемости мелкого текста */
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  border: none;
-  background: transparent;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px; /* Более мягкие современные скругления углов */
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 
-  &.text {
-    color: #334155; /* Благородный сланцевый цвет текста */
-    
-    &:hover {
-      background-color: rgba(30, 41, 59, 0.04); /* Очень мягкий ховер */
-      color: #15803d; /* При наведении красивый приглушенный зеленый, под ваш градиент */
+  .user-info {
+    font-size: 0.9rem;
+    color: #334155;
+  }
+}
+
+.role-badge {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  background: #e2e8f0;
+  color: #475569;
+
+  &.admin {
+    background: #fef2f2;
+    color: #dc2626;
+  }
+}
+
+// Скрываем мобильные элементы на десктопе
+.mobile-controls {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.burger-btn {
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.35rem;
+  color: #1e293b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
+
+// Адаптив для экранов <= 768px
+@media (max-width: 960px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-controls {
+    display: flex;
+  }
+}
+
+// Выпадающее мобильное меню
+.mobile-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: white;
+  border-top: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 1rem 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 99;
+
+  .mobile-user-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.65rem 0.85rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.9rem;
+    color: #334155;
+  }
+
+  .mobile-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+
+    ::ng-deep app-button button {
+      width: 100%;
+      text-align: left;
+      padding: 0.65rem 0.75rem;
+    }
+
+    app-button.active-link ::ng-deep button {
+      background: #fff7ed;
+      color: #ea580c;
+      font-weight: 600;
+      border-left: 3px solid #fb923c;
+    }
+  }
+
+  .mobile-auth-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f1f5f9;
+
+    ::ng-deep app-button button {
+      width: 100%;
+      text-align: center;
     }
   }
 }
-

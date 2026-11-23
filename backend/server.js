@@ -157,7 +157,11 @@ app.post('/api/register', async (req, res) => {
     if (exists) return res.status(400).json({ message: 'User with this email already exists' });
 
     const newUser = await User.create({ firstName, secondName, email, password, role: 'Customer' });
-    const token = jwt.sign({ id: newUser._id, email: newUser.email, role: newUser.role }, JWT_SECRET, { expiresIn: '2h' });
+    const token = jwt.sign({ 
+      id: newUser._id.toString(), 
+      email: newUser.email, 
+      role: newUser.role }, 
+      JWT_SECRET, { expiresIn: '2h' });
 
     res.status(201).json({
       token,
@@ -175,7 +179,11 @@ app.post('/api/login', async (req, res) => {
     const user = await User.findOne({ email, password });
     if (!user) return res.status(401).json({ message: 'Invalid email or password' });
 
-    const token = jwt.sign({ id: user._id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '2h' });
+    const token = jwt.sign({ 
+      id: user._id.toString(), 
+      email: user.email, 
+      role: user.role }, 
+      JWT_SECRET, { expiresIn: '2h' });
 
     res.json({
       token,

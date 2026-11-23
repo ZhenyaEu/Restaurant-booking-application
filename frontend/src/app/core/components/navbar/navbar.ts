@@ -18,6 +18,7 @@ import { CartService } from '../../services/cart';
 })
 export class Navbar implements OnInit {
   logoUrl = signal<string>('');
+  isMobileMenuOpen = signal<boolean>(false);
   
   private http = inject(HttpClient);
   public authService = inject(AuthService); // Делаем public, чтобы использовать в HTML
@@ -32,15 +33,26 @@ export class Navbar implements OnInit {
       });
   }
 
+   toggleMobileMenu() {
+    this.isMobileMenuOpen.update(val => !val);
+  }
+
+  closeMobileMenu() {
+    this.isMobileMenuOpen.set(false);
+  }
+
   openLogin() {
+    this.closeMobileMenu();
     this.dialog.open(LoginDialog);
   }
 
   openRegister() {
+    this.closeMobileMenu();
     this.dialog.open(RegisterDialogComponent);
   }
 
   onLogout() {
+    this.closeMobileMenu();
     this.authService.logout();
   }
 }

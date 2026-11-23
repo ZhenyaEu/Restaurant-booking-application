@@ -7,6 +7,8 @@
 
 html {
   height: 100%;
+  overflow-x: hidden; 
+  max-width: 100%;
   @include mat.theme(
     (
       color: (
@@ -20,6 +22,8 @@ html {
 }
 
 body {
+  overflow-x: hidden; 
+  max-width: 100%;
   // Default the application to a light color theme. This can be changed to
   // `dark` to enable the dark color theme, or to `light dark` to defer to the
   // user's system settings.

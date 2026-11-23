@@ -30,9 +30,9 @@ export class RestaurantDetailComponent implements OnInit {
     const rest = this.restaurant();
     if (!user || !rest?.reviews) return undefined;
 
-    // Сравниваем по userId или по полному имени
-    const fullName = `${user.firstName} ${user.secondName}`;
-    return rest.reviews.find(r => (user.id && r.userId === user.id) || r.author === fullName);
+    // Сравниваем по userId 
+    
+    return rest.reviews.find(r => (user.id && r.userId === user.id) );
   });
 
   ngOnInit() {
