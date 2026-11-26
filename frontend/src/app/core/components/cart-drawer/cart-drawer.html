@@ -18,21 +18,29 @@
       </div>
     } @else {
       @for (item of cartService.items(); track item.dish.id) {
-        <div class="cart-item">
-          <img [src]="item.dish.imageUrl" [alt]="item.dish.name" class="item-img">
-          
-          <div class="item-details">
-            <h4>{{ item.dish.name }}</h4>
-            <span class="item-price">{{ item.dish.price }}$</span>
-          </div>
+  <div class="cart-item">
+    <img [src]="item.dish.imageUrl" [alt]="item.dish.name" class="item-img">
+    
+    <div class="item-details">
+      <h4>{{ item.dish.name }}</h4>
+      <span class="item-price">{{ item.dish.price }}$</span>
+    </div>
 
-          <div class="quantity-controls">
-            <button (click)="cartService.updateQuantity(item.dish.id, -1)">−</button>
-            <span>{{ item.quantity }}</span>
-            <button (click)="cartService.updateQuantity(item.dish.id, 1)">+</button>
-          </div>
-        </div>
-      }
+    <div class="quantity-controls">
+      <button (click)="cartService.updateQuantity(item.dish.id, -1)">−</button>
+      <span>{{ item.quantity }}</span>
+      <button (click)="cartService.updateQuantity(item.dish.id, 1)">+</button>
+    </div>
+
+    <!-- Кнопка полного удаления товарной позиции -->
+    <button 
+      class="btn-remove" 
+      (click)="cartService.removeFromCart(item.dish.id)" 
+      title="Remove item">
+      🗑
+    </button>
+  </div>
+}
     }
   </div>
 

@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth';
 import { RegisterDialogComponent } from '../register-dialog/register-dialog';
 import { LoginDialog } from '../login-dialog/login-dialog';
 import { CartService } from '../../services/cart';
+import { ThemeService } from '../../services/theme';
 
 @Component({
   selector: 'app-navbar',
@@ -24,6 +25,7 @@ export class Navbar implements OnInit {
   public authService = inject(AuthService); // Делаем public, чтобы использовать в HTML
   private dialog = inject(MatDialog);
   public cartService = inject(CartService)
+  public themeService = inject(ThemeService);
 
   ngOnInit() {
     this.http.get<{ logoUrl: string }>('http://localhost:3000/api/config')

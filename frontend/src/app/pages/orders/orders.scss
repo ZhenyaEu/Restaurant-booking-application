@@ -76,13 +76,13 @@
     border-radius: 6px;
 
     &.in-progress {
-      color: #dc2626;
-      background: #fef2f2;
+      color: #dc2626 !important;
+      background: #fef2f2 !important;
     }
 
     &.completed {
-      color: #15803d;
-      background: #dcfce7;
+      color: #15803d !important;
+      background: #dcfce7 !important;
     }
   }
 

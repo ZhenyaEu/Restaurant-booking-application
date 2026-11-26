@@ -20,21 +20,21 @@ import { AuthService } from '../../services/auth';
     MatSelectModule, MatButtonModule
   ],
   template: `
-    <h2 mat-dialog-title>Бронирование столика</h2>
+    <h2 mat-dialog-title>Table reservation</h2>
 
     <mat-dialog-content>
       <div class="restaurant-info">
         <img [src]="data.photoUrl" [alt]="data.name" class="photo" />
         <p>
-          Вы резервируете столик в ресторане <strong>{{ data.name }}</strong> 
-          по адресу: <span>{{ data.address }}</span>
+         You are reserving a table at a restaurant <strong>{{ data.name }}</strong> 
+          located at: <span>{{ data.address }}</span>
         </p>
       </div>
 
       <form [formGroup]="form" class="form-container">
         <!-- 1. Выбор даты -->
         <mat-form-field appearance="outline">
-          <mat-label>Дата посещения</mat-label>
+          <mat-label>Date of visit</mat-label>
           <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="date" readonly (click)="picker.open()">
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -44,7 +44,7 @@ import { AuthService } from '../../services/auth';
         <div class="time-row">
           <!-- Время начала -->
           <mat-form-field appearance="outline">
-            <mat-label>Начало визита</mat-label>
+            <mat-label>Start of the visit</mat-label>
             <mat-select formControlName="startTime">
               @for (slot of startSlots; track slot.time) {
                 <mat-option [value]="slot" [disabled]="!slot.isAvailableForStart">
@@ -63,7 +63,7 @@ import { AuthService } from '../../services/auth';
 
           <!-- Время окончания (произвольная длительность с шагом 30 мин) -->
           <mat-form-field appearance="outline">
-            <mat-label>Окончание визита</mat-label>
+            <mat-label>End of the visit</mat-label>
             <mat-select formControlName="endTime">
               @for (slot of availableEndSlots; track slot.time) {
                 <mat-option [value]="slot.time">
@@ -181,7 +181,7 @@ export class BookTableDialogComponent implements OnInit {
     if (!mins) return '';
     const h = Math.floor(mins / 60);
     const m = mins % 60;
-    return h > 0 ? (m > 0 ? `${h} ч ${m} мин` : `${h} ч`) : `${m} мин`;
+    return h > 0 ? (m > 0 ? `${h} h ${m} min` : `${h} h`) : `${m} min`;
   }
 
   private formatDate(date: Date): string {

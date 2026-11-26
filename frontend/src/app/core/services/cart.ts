@@ -17,11 +17,11 @@ export class CartService {
   items = signal<CartItem[]>([]);
   isOpen = signal<boolean>(false);
 
-  totalCount = computed(() => 
+  totalCount = computed(() =>
     this.items().reduce((acc, item) => acc + item.quantity, 0)
   );
 
-  totalPrice = computed(() => 
+  totalPrice = computed(() =>
     this.items().reduce((acc, item) => acc + (item.dish.price * item.quantity), 0)
   );
 
@@ -82,4 +82,12 @@ export class CartService {
 
     this.syncWithServer(updated);
   }
+
+  removeFromCart(dishId: string | number | undefined) {
+    if (!dishId) return;
+
+    const updated = this.items().filter(item => item.dish.id !== dishId);
+    this.syncWithServer(updated);
+  }
+
 }

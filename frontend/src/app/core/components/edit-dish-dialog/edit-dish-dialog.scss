@@ -5,34 +5,63 @@
   padding-top: 0.5rem;
   min-width: 340px;
 
-  mat-form-field { width: 100%; }
+  mat-form-field {
+    width: 100%;
+  }
 }
 
 .file-upload {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  margin: 0.5rem 0;
 
-  input[type="file"] { display: none; }
+  input[type="file"] {
+    display: none;
+  }
 
   .file-label {
+    display: inline-block;
     background: #e2e8f0;
-    color: #334155;
-    padding: 0.5rem 1rem;
+    color: #334155 !important;
+    border: 1px solid #cbd5e1; // Граница в светлой теме
+    padding: 0.55rem 1.1rem;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 0.85rem;
     font-weight: 500;
-    &:hover { background: #cbd5e1; }
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #cbd5e1;
+      border-color: #94a3b8;
+      transform: translateY(-2px);
+    }
   }
 
   .file-name {
-    font-size: 0.8rem;
-    color: #64748b;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
   }
 }
 
+// Стили для тёмной темы (вынесены из .file-upload на верхний уровень)
+:host-context(body.dark-theme) .file-upload .file-label {
+  background: #334155;
+  color: #ffffff !important;
+  border: 1px solid #475569; // Точно такая же толщина границы, как в светлой теме
+
+  &:hover {
+    background: #475569;
+    border-color: #94a3b8;
+    transform: translateY(-2px);
+  }
+}
+
+
 mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
   gap: 0.5rem;
   padding: 1rem 1.5rem !important;
 
@@ -44,18 +73,40 @@ mat-dialog-actions {
     border: none;
     padding: 0.6rem 1.2rem;
     border-radius: 6px;
-    &:disabled { opacity: 0.5; cursor: not-allowed; }
+    transition: all 0.2s;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
 
   .btn-cancel {
-    background: transparent;
-    color: #64748b;
-    &:hover { background: rgba(0, 0, 0, 0.04); }
+    background: transparent !important;
+    color: #64748b !important;
+
+    &:hover {
+      background: rgba(148, 163, 184, 0.15) !important;
+    }
   }
 
   .btn-submit {
-    background: #15803d;
-    color: white;
-    &:hover { background: #166534; }
+    background: #15803d !important;
+    color: #ffffff !important;
+
+    &:not(:disabled):hover {
+      background: #166534 !important;
+    }
+  }
+}
+
+// Адаптация кнопки Cancel для тёмной темы
+:host-context(body.dark-theme) {
+  mat-dialog-actions .btn-cancel {
+    color: #cbd5e1 !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+    }
   }
 }

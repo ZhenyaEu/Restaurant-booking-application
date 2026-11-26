@@ -25,8 +25,8 @@
     h2 { margin: 0; font-size: 1.35rem; }
 
     .email-badge {
-      background: #f1f5f9;
-      color: #475569;
+      background: #f1f5f9 !important;
+      color: #475569 !important;
       padding: 0.35rem 0.85rem;
       border-radius: 20px;
       font-size: 0.9rem;
@@ -146,12 +146,12 @@
       font-weight: 700;
       padding: 0.25rem 0.65rem;
       border-radius: 6px;
-      background: #fef2f2;
-      color: #dc2626;
+      background: #fef2f2 !important;
+      color: #dc2626 !important;
 
       &.completed {
-        background: #dcfce7;
-        color: #15803d;
+        background: #dcfce7 !important;
+        color: #15803d !important;
       }
     }
   }

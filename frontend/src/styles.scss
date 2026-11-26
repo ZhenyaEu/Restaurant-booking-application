@@ -78,3 +78,164 @@ h6 {
   font-weight: 700; // Делаем заголовки жирными и солидными
   letter-spacing: -0.02em; // Слегка сжимаем расстояние между буквами в заголовках 
 }
+
+:root {
+  --bg-page: #f8f9fa;
+  --bg-card: #ffffff;
+  --bg-surface: #f8fafc;
+  --bg-nav-footer: linear-gradient(135deg, #e8f5e9 0%, #ffffff 100%);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: #e2e8f0;
+  --accent-green: #15803d;
+}
+
+body.dark-theme {
+  --bg-page: #0f172a;
+  --bg-card: #1e293b;
+  --bg-surface: #334155;
+  --bg-nav-footer: linear-gradient(135deg, #064e3b 0%, #0f172a 100%);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --border-color: #334155;
+  --accent-green: #22c55e;
+
+    // Возвращаем оригинальные стили для календаря Angular Material
+  .mat-datepicker-content,
+  .mat-calendar, .mat-select  {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+
+    span, div, td, th, button,
+    .mat-calendar-body-cell-content,
+    .mat-calendar-table-header,
+    .mat-calendar-period-button {
+      color: #0f172a !important;
+    }
+
+    // Сохраняем белый цвет только для выбранной активной даты (синий/зеленый кружок)
+    .mat-calendar-body-selected {
+      color: #ffffff !important;
+    }
+
+    // Сохраняем серый цвет для недоступных (прошедших) дат
+    .mat-calendar-body-disabled > .mat-calendar-body-cell-content {
+      color: rgba(15, 23, 42, 0.38) !important;
+    }
+    
+  }
+  // Возвращаем оригинальные светлые стили для выпадающих списков (выбор времени и др.)
+  .mat-mdc-select-panel,
+  .mat-mdc-autocomplete-panel {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+
+    .mat-mdc-option,
+    .mat-mdc-option .mdc-list-item__primary-text,
+    span, div {
+      color: #0f172a !important;
+    }
+
+    // Подсветка при наведении и для выбранного слота времени
+    .mat-mdc-option:hover:not(.mdc-list-item--disabled),
+    .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+      background-color: rgba(21, 128, 61, 0.08) !important;
+    }
+
+    // Недоступные (занятые или прошедшие) слоты времени делаем полупрозрачными серыми
+    .mat-mdc-option.mdc-list-item--disabled,
+    .mat-mdc-option.mdc-list-item--disabled .mdc-list-item__primary-text {
+      color: rgba(15, 23, 42, 0.38) !important;
+    }
+  }
+
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+// Глобальная адаптация карточек, заголовков и элементов Angular Material в тёмной теме
+body.dark-theme {
+  h1, h2, h3, h4, h5, h6, p, span, b, form, label, input, select, textarea {
+    color: var(--text-primary) !important;
+  }
+
+/*   p, span {
+    color: var(--text-secondary);
+  } */
+
+  // Перекрашиваем белые карточки и панели по всему приложению
+  .dish-card,
+  .restaurant-card,
+  .order-card,
+  .reservation-card,
+  .history-card,
+  .credentials-card,
+  .story-section,
+  .value-card,
+  .cta-banner,
+  .info-card,
+  .review-card,
+  .cart-drawer,
+  .mobile-dropdown {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+  }
+
+  // Поля ввода, фильтры и плашки
+  input, select, textarea, .filter-controls, .detail-badge, .badge, .booking-details, .cart-footer, .file-label, .total-price { 
+    background-color: var(--bg-surface) !important;
+    color: var(--text-primary) !important;
+    border-color: #475569 !important;
+  }
+
+  // Адаптация модальных окон и вкладок Angular Material
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+  }
+
+  .mat-mdc-tab .mdc-tab__text-label {
+    color: var(--text-secondary) !important;
+  }
+
+
+}
+
+// Универсальные стили для кнопки загрузки файла (светлая тема)
+.file-upload .file-label {
+  display: inline-block !important;
+  background-color: #e2e8f0 !important;
+  color: #334155 !important;
+  border: 1px solid #cbd5e1 !important;
+  padding: 0.55rem 1.1rem !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+  font-size: 0.9rem !important;
+  transition: all 0.2s ease !important;
+
+  &:hover {
+    background-color: #cbd5e1 !important;
+    border-color: #94a3b8 !important;
+    transform: translateY(-2px) !important;
+  }
+}
+
+// Универсальные стили для кнопки загрузки файла (тёмная тема)
+body.dark-theme .file-upload .file-label {
+  background-color: #334155 !important;
+  color: #ffffff !important;
+  border: 1px solid #475569 !important;
+
+  &:hover {
+    background-color: #475569 !important;
+    border-color: #94a3b8 !important;
+    transform: translateY(-2px) !important;
+  }
+}
+

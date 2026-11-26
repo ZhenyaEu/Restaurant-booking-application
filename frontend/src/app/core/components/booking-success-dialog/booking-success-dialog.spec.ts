@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BookingSuccessDialog } from './booking-success-dialog';
+import { BookingSuccessDialogComponent } from './booking-success-dialog';
 
 describe('BookingSuccessDialog', () => {
-  let component: BookingSuccessDialog;
-  let fixture: ComponentFixture<BookingSuccessDialog>;
+  let component: BookingSuccessDialogComponent;
+  let fixture: ComponentFixture<BookingSuccessDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BookingSuccessDialog],
+      imports: [BookingSuccessDialogComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BookingSuccessDialog);
+    fixture = TestBed.createComponent(BookingSuccessDialogComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

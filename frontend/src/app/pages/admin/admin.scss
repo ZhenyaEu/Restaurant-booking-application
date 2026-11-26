@@ -17,6 +17,7 @@
   padding: 0;
   li {
     padding: 0.75rem;
+    color: #334155;
     background: white;
     border-radius: 6px;
     margin-bottom: 0.5rem;
@@ -36,7 +37,7 @@
 .file-upload {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   margin: 0.5rem 0;
 
   input[type="file"] {
@@ -44,21 +45,43 @@
   }
 
   .file-label {
+    display: inline-block;
     background: #e2e8f0;
-    color: #334155;
-    padding: 0.5rem 1rem;
+    color: #334155 !important;
+    border: 1px solid #cbd5e1; // Граница в светлой теме
+    padding: 0.55rem 1.1rem;
     border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
     font-size: 0.9rem;
-    &:hover { background: #cbd5e1; }
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #cbd5e1;
+      border-color: #94a3b8;
+      transform: translateY(-2px);
+    }
   }
 
   .file-name {
     font-size: 0.85rem;
-    color: #64748b;
+    color: var(--text-secondary);
   }
 }
+
+// Стили для тёмной темы (вынесены из .file-upload на верхний уровень)
+:host-context(body.dark-theme) .file-upload .file-label {
+  background: #334155;
+  color: #ffffff !important;
+  border: 1px solid #475569; // Точно такая же толщина границы, как в светлой теме
+
+  &:hover {
+    background: #475569;
+    border-color: #94a3b8;
+    transform: translateY(-2px);
+  }
+}
+
 
 .success-banner {
   background: #dcfce7;
