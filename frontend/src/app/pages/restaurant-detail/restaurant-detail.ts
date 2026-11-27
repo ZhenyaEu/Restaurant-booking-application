@@ -24,13 +24,13 @@ export class RestaurantDetailComponent implements OnInit {
 
   restaurant = signal<Restaurant | null>(null);
 
-  // Находим отзыв текущего авторизованного Customer, если он уже его оставлял
+  // Find the current authenticated Customer's review if they already left one
   myReview = computed<Review | undefined>(() => {
     const user = this.authService.currentUser();
     const rest = this.restaurant();
     if (!user || !rest?.reviews) return undefined;
 
-    // Сравниваем по userId 
+    // Compare by userId
     
     return rest.reviews.find(r => (user.id && r.userId === user.id) );
   });
@@ -59,7 +59,7 @@ export class RestaurantDetailComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((savedReview: Review | undefined) => {
       if (savedReview) {
-        // Обновляем список отзывов на экране без перезагрузки страницы
+        // Update the on-screen review list without reloading the page
         this.restaurant.update(current => {
           if (!current) return null;
           const existingList = current.reviews || [];
@@ -80,13 +80,13 @@ export class RestaurantDetailComponent implements OnInit {
   }
 
   onBookTable() {
-  // 1. Если пользователь не зарегистрирован — открываем Sign Up и ждем его закрытия
+  // 1. If the user is not registered, open Sign Up and wait for it to close
   if (!this.authService.isAuthenticated()) {
     const registerDialogRef = this.dialog.open(RegisterDialogComponent);
 
     registerDialogRef.afterClosed().subscribe(() => {
-      // Проверяем: если после закрытия окна пользователь успешно зарегистрировался как Customer,
-      // сразу открываем окно бронирования столика!
+      // Check whether the user successfully registered as a Customer after closing the dialog,
+      // and immediately open the table-booking dialog
       if (this.authService.isAuthenticated() && this.authService.currentUser()?.role === 'Customer') {
         const restaurant = this.restaurant();
         if (restaurant) this.openBookingModal(restaurant);
@@ -95,7 +95,7 @@ export class RestaurantDetailComponent implements OnInit {
     return;
   }
 
-  // 2. Если пользователь уже вошел как Customer — сразу открываем бронирование
+  // 2. If the user is already logged in as a Customer, open booking immediately
   if (this.authService.currentUser()?.role === 'Customer') {
     const restaurant = this.restaurant();
     if (restaurant) this.openBookingModal(restaurant);

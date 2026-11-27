@@ -2,12 +2,12 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%; /* Обязательно, иначе панель сожмется по ширине контента */
+  width: 100%; /* Required; otherwise the panel shrinks to the content width */
   z-index: 1000;
   display: grid;
-  grid-template-columns: 1fr auto 1fr; // Левая и правая части равны, центр всегда по центру
+  grid-template-columns: 1fr auto 1fr; // The left and right sections are equal; the center stays centered
   align-items: center;
-  gap: 1rem; // Минимальный зазор, чтобы блоки никогда не слипались и не наползали друг на друга
+  gap: 1rem; // Minimum gap so the blocks never overlap or touch
   width: 100%;
   box-sizing: border-box;
   padding: 0.75rem 2rem;
@@ -17,13 +17,13 @@
 
   @media (max-width: 960px) {
     padding: 0.75rem 1rem;
-    // На планшетах/мобильных возвращаем flex для логотипа слева и бургера справа
+    // On tablets/mobile, use flex for the logo on the left and the burger on the right
     display: flex;
     justify-content: space-between;
   }
 
   &-logo {
-    justify-self: start; // Прижимаем логотип строго влево
+    justify-self: start; // Pin the logo to the left
     display: flex;
     align-items: center;
 
@@ -41,7 +41,7 @@
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:hover {
-        transform: translateY(-2px); // Плавное приподнимание как у кнопок app-button
+        transform: translateY(-2px); // Smooth lift like app-button controls
         background: rgba(21, 128, 61, 0.08);
       }
     }
@@ -54,11 +54,11 @@
   }
 
   &-menu {
-    justify-self: center; // Держим меню строго по центру навбара
+    justify-self: center; // Keep the menu centered in the navbar
     display: flex;
     gap: 1rem;
     justify-content: center;
-    white-space: nowrap; // Запрещаем перенос текста кнопок на вторую строку
+    white-space: nowrap; // Prevent button text from wrapping to a second line
 
     app-button.active-link {
       position: relative;
@@ -83,7 +83,7 @@
   }
 
   &-actions {
-    justify-self: end; // Прижимаем правый блок строго вправо
+    justify-self: end; // Pin the right block to the right
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -105,7 +105,7 @@
 
     &:hover {
       cursor: pointer;
-      transform: translateY(-2px); // Плавное приподнимание как у кнопок app-button
+      transform: translateY(-2px); // Smooth lift like app-button controls
       background: rgba(21, 128, 61, 0.08);
     }
   }
@@ -128,7 +128,7 @@
   }
 }
 
-// Скрываем мобильные элементы на десктопе
+// Hide mobile elements on desktop
 .mobile-controls {
   display: none;
   align-items: center;
@@ -154,7 +154,7 @@
   }
 }
 
-// Адаптив для экранов <= 768px
+// Responsive styles for screens <= 768px
 @media (max-width: 960px) {
   .desktop-only {
     display: none !important;
@@ -165,7 +165,7 @@
   }
 }
 
-// Выпадающее мобильное меню
+// Mobile dropdown menu
 .mobile-dropdown {
   position: absolute;
   top: 100%;
@@ -228,7 +228,7 @@
 
 .user-info.clickable,
 .mobile-user-banner.clickable {
-  display: inline-flex; // Важно: без inline-block или inline-flex transform: translateY не сработает на строчном теге <span>
+  display: inline-flex; // Important: without inline-block or inline-flex, translateY does not work on an inline <span> element
   align-items: center;
   gap: 0.4rem;
   cursor: pointer;
@@ -237,7 +237,7 @@
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
-    transform: translateY(-2px); // Плавное приподнимание как у кнопок app-button
+    transform: translateY(-2px); // Smooth lift like app-button controls
     background: rgba(21, 128, 61, 0.08);
   }
 
@@ -267,7 +267,7 @@
   }
 }
 
-// Для тёмной темы делаем текст кнопок навбара светлым
+// Make navbar button text light in the dark theme
 :host-context(body.dark-theme) {
   ::ng-deep app-button button.text {
     color: #e2e8f0;

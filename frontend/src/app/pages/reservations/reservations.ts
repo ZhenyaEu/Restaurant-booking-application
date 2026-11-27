@@ -59,7 +59,7 @@ export class ReservationsComponent implements OnInit {
     this.selectedDate.set('');
   }
 
-  // Метод генерации и скачивания PDF-отчета
+  // Generate and download the PDF report
   downloadPdfReport() {
     const data = this.filteredBookings();
     if (data.length === 0) return;
@@ -67,18 +67,18 @@ export class ReservationsComponent implements OnInit {
     const doc = new jsPDF();
     const filterDate = this.selectedDate();
 
-    // 1. Заголовок документа
+    // 1. Document title
     doc.setFontSize(18);
-    doc.setTextColor(21, 128, 61); // Фирменный зеленый цвет (#15803d)
+    doc.setTextColor(21, 128, 61); // Brand green color (#15803d)
     doc.text('Georgian Restaurant Chain — Reservations Report', 14, 20);
 
-    // 2. Подзаголовок с выбранной датой и общим количеством броней
+    // 2. Subtitle with the selected date and total number of bookings
     doc.setFontSize(11);
     doc.setTextColor(71, 85, 105);
     const periodText = filterDate ? `Selected Date: ${filterDate}` : 'Period: All Dates';
     doc.text(`${periodText} | Total Reservations: ${data.length}`, 14, 28);
 
-    // 3. Подготовка строк для таблицы
+    // 3. Prepare table rows
     const tableRows = data.map((item, index) => [
       index + 1,
       item.customerName,
@@ -94,14 +94,14 @@ export class ReservationsComponent implements OnInit {
       })
     ]);
 
-    // 4. Отрисовка таблицы
+    // 4. Render the table
     autoTable(doc, {
       startY: 35,
       head: [['#', 'Customer Name', 'Email', 'Reserved Date', 'Time Slot', 'Booked On']],
       body: tableRows,
       theme: 'grid',
       headStyles: {
-        fillColor: [21, 128, 61], // Зеленая шапка таблицы
+        fillColor: [21, 128, 61], // Green table header
         textColor: [255, 255, 255],
         fontStyle: 'bold'
       },
@@ -111,7 +111,7 @@ export class ReservationsComponent implements OnInit {
       }
     });
 
-    // 5. Сохранение файла с понятным именем
+    // 5. Save the file with a readable name
     const fileName = filterDate ? `reservations_${filterDate}.pdf` : 'reservations_all.pdf';
     doc.save(fileName);
   }

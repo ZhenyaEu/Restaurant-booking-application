@@ -16,7 +16,7 @@ export class EditDishDialogComponent {
   private dishesService = inject(DishesService);
   private dialogRef = inject(MatDialogRef<EditDishDialogComponent>);
   
-  // Получаем данные выбранного блюда, переданные при открытии окна
+  // Get the selected dish data passed when opening the dialog
   public data: Dish = inject(MAT_DIALOG_DATA);
 
   selectedFile: File | null = null;
@@ -47,7 +47,7 @@ export class EditDishDialogComponent {
 
       this.dishesService.updateDish(this.data.id, formData).subscribe({
         next: (updatedDish) => {
-          // Закрываем окно и возвращаем обновленное блюдо на главную страницу
+          // Close the dialog and return the updated dish to the home page
           this.dialogRef.close(updatedDish);
         },
         error: (err) => console.error('Ошибка при обновлении:', err)

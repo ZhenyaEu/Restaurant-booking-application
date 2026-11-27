@@ -35,7 +35,7 @@ export class RegisterDialogComponent {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe({
         next: () => {
-          this.dialogRef.close(); // Закрываем окно при успешном успехе
+          this.dialogRef.close(); // Close the dialog after success
         },
         error: (err) => {
           this.errorMessage = err.error?.message || 'Registration failed';

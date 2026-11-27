@@ -6,12 +6,12 @@ export const notWaiterGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  // Проверяем: если текущий пользователь — Waiter, запрещаем переход
+  // Check: if the current user is a Waiter, prohibit navigation
   if (authService.currentUser()?.role === 'Waiter') {
-    router.navigate(['/orders']); // Перенаправляем на его страницу заказов
+    router.navigate(['/orders']); // Redirect to the Waiter's orders page
     return false;
   }
 
-  // Для всех остальных (Гость, Customer, Admin) доступ разрешен
+  // Access is allowed for all others (Guest, Customer, Admin)
   return true;
 };

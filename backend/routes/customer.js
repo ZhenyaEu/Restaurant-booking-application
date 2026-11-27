@@ -9,7 +9,7 @@ const Review = require('../models/Review');
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'my_super_secret_key_123';
 
-// Мидлвар проверки роли Customer
+// Customer role-checking middleware
 const isCustomer = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -27,7 +27,7 @@ const isCustomer = (req, res, next) => {
   }
 };
 
-// 1. Обновление имени и фамилии (PUT /api/customer/profile)
+// 1. Update first and last name (PUT /api/customer/profile)
 router.put('/profile', isCustomer, async (req, res) => {
   try {
     const { firstName, secondName } = req.body;
@@ -57,7 +57,7 @@ router.put('/profile', isCustomer, async (req, res) => {
   }
 });
 
-// 2. Удаление аккаунта и связанных данных (DELETE /api/customer/profile)
+// 2. Delete the account and related data (DELETE /api/customer/profile)
 router.delete('/profile', isCustomer, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -71,7 +71,7 @@ router.delete('/profile', isCustomer, async (req, res) => {
   }
 });
 
-// 3. История заказов и бронирований текущего Customer (GET /api/customer/history)
+// 3. Current Customer's order and booking history (GET /api/customer/history)
 router.get('/history', isCustomer, async (req, res) => {
   try {
     const userEmail = req.user.email;

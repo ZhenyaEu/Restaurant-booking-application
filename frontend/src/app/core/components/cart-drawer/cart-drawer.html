@@ -1,9 +1,9 @@
-<!-- Затемнение заднего фона при открытой корзине -->
+<!-- Darken the background when the cart is open -->
 @if (cartService.isOpen()) {
   <div class="backdrop" (click)="cartService.closeCart()"></div>
 }
 
-<!-- Выезжающая панель справа -->
+<!-- Sliding panel from the right -->
 <aside class="cart-drawer" [class.open]="cartService.isOpen()">
   <div class="cart-header">
     <h2>Your Order</h2>
@@ -32,7 +32,7 @@
       <button (click)="cartService.updateQuantity(item.dish.id, 1)">+</button>
     </div>
 
-    <!-- Кнопка полного удаления товарной позиции -->
+    <!-- Button to completely remove a cart item -->
     <button 
       class="btn-remove" 
       (click)="cartService.removeFromCart(item.dish.id)" 

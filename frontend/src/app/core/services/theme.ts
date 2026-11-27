@@ -4,11 +4,11 @@ import { Injectable, signal, effect } from '@angular/core';
   providedIn: 'root'
 })
 export class ThemeService {
-  // Читаем сохраненную тему из localStorage (по умолчанию светлая)
+  // Read the saved theme from localStorage (light by default)
   isDark = signal<boolean>(localStorage.getItem('theme') === 'dark');
 
   constructor() {
-    // Автоматически применяем класс к body и сохраняем в localStorage при каждом изменении сигнала
+    // Automatically apply the class to the body and save it to localStorage whenever the signal changes
     effect(() => {
       const dark = this.isDark();
       if (dark) {

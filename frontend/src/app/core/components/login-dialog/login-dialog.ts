@@ -15,7 +15,7 @@ import { AuthService } from '../../services/auth';
     MatInputModule
   ],
   templateUrl: './login-dialog.html',
-  styleUrl: './login-dialog.scss' // Можно использовать те же стили
+  styleUrl: './login-dialog.scss' // The same styles can be used
 })
 export class LoginDialog {
   private fb = inject(FormBuilder);

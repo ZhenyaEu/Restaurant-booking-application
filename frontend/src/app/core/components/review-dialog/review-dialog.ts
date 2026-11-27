@@ -8,7 +8,7 @@ import { RestaurantsService, Review } from '../../services/restaurants';
 export interface ReviewDialogData {
   restaurantId: number;
   restaurantName: string;
-  existingReview?: Review; // Если пользователь уже оставлял отзыв, передаем его для редактирования
+  existingReview?: Review; // If the user already left a review, pass it for editing
 }
 
 @Component({

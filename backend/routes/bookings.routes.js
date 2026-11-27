@@ -5,7 +5,7 @@ const bookingService = require('../services/bookings.service');
 
 const JWT_SECRET = 'my_super_secret_key_123';
 
-// Простой мидлвар для чтения пользователя из токена
+// Simple middleware for reading the user from the token
 const extractUser = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (authHeader && authHeader.startsWith('Bearer ')) {
@@ -47,7 +47,7 @@ router.get('/waiter', extractUser, async (req, res) => {
 // POST /api/bookings
 router.post('/', extractUser, async (req, res) => {
   try {
-    // Объединяем данные формы с данными пользователя из токена и датой создания
+    // Combine the form data with the token user data and creation date
     const bookingPayload = {
       ...req.body,
       customerEmail: req.body.customerEmail || req.user?.email || 'Guest',

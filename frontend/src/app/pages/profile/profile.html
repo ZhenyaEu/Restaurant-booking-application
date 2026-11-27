@@ -1,7 +1,7 @@
 <div class="profile-container">
   <h1>My Profile</h1>
 
-  <!-- Карточка учетных данных -->
+  <!-- Account details card -->
   <section class="credentials-card">
     <div class="card-header">
       <h2>Account Details</h2>
@@ -41,14 +41,14 @@
     </form>
   </section>
 
-  <!-- Вложенные вкладки: История заказов и История бронирований -->
+  <!-- Nested tabs: Order History and Booking History -->
   <section class="history-section">
     @if (isLoading()) {
     <app-spinner message="Loading your history..."></app-spinner>
     } @else {
     <mat-tab-group animationDuration="200ms">
 
-      <!-- Вкладка 1: Order History -->
+      <!-- Tab 1: Order History -->
       <mat-tab label="Order History">
         <div class="tab-content">
           @if (orders().length === 0) {
@@ -84,7 +84,7 @@
         </div>
       </mat-tab>
 
-      <!-- Вкладка 2: Booking History -->
+      <!-- Tab 2: Booking History -->
       <mat-tab label="Booking History">
         <div class="tab-content">
           @if (bookings().length === 0) {

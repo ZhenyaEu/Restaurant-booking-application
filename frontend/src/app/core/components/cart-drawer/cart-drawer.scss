@@ -19,7 +19,7 @@
   display: flex;
   flex-direction: column;
   
-  // Скрываем за правым краем экрана и плавно выдвигаем при классе .open
+  // Hide beyond the right edge of the screen and slide in smoothly with the .open class
   transform: translateX(100%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 

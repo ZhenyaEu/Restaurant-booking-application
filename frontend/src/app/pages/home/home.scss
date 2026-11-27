@@ -61,21 +61,21 @@
     font-size: 0.9rem;
     line-height: 1.4;
     margin: 0 0 1.25rem 0;
-    flex-grow: 1; // Толкает кнопку вниз, чтобы все кнопки были на одной линии
+    flex-grow: 1; // Pushes the button down so all buttons align on the same line
   }
 
   .dish-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto; // Прижимает блок к низу карточки
+  margin-top: auto; // Pins the block to the bottom of the card
   padding-top: 0.75rem;
   border-top: 1px solid #f1f5f9;
 
   .dish-price {
     font-size: 1.25rem;
     font-weight: 700;
-    color: #15803d; // Приятный зеленый акцент под стиль сайта
+    color: #15803d; // Pleasant green accent matching the site style
   }
 
   ::ng-deep app-button button {
@@ -114,15 +114,15 @@
 }
 
 .cart-snackbar {
-  --mdc-snackbar-container-color: #92bda2; // Зеленый фон
-  --mdc-snackbar-supporting-text-color: #ffffff; // Белый текст
-  --mat-snack-bar-button-color: #dcfce7; // Светло-зеленая кнопка OK
+  --mdc-snackbar-container-color: #92bda2; // Green background
+  --mdc-snackbar-supporting-text-color: #ffffff; // White text
+  --mat-snack-bar-button-color: #dcfce7; // Light-green OK button
 }
 
 
 .controls-bar {
   display: flex;
-  justify-content: flex-end; // Выравнивание справа сверху над dishes-grid
+  justify-content: flex-end; // Right-aligned at the top above the dishes grid
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;

@@ -1,5 +1,5 @@
 <nav class="navbar">
-  <!-- 1. Логотип слева -->
+  <!-- 1. Logo on the left -->
   <div class="navbar-logo">
     <a routerLink="/" (click)="closeMobileMenu()">
       @if (logoUrl()) {
@@ -10,7 +10,7 @@
     </a>
   </div>
 
-  <!-- 2. Десктопное меню по центру (скрывается на мобильных) -->
+  <!-- 2. Desktop menu in the center (hidden on mobile) -->
   <div class="navbar-menu desktop-only">
     @if (authService.currentUser()?.role === 'Waiter') {
     <app-button variant="text" routerLink="/orders" routerLinkActive="active-link">Orders</app-button>
@@ -30,7 +30,7 @@
     }
   </div>
 
-  <!-- 3. Десктопные действия справа (скрываются на мобильных) -->
+  <!-- 3. Desktop actions on the right (hidden on mobile) -->
   <div class="navbar-actions desktop-only">
     @if (!authService.isAuthenticated()) {
     <app-button variant="text" (click)="openLogin()">Log In</app-button>
@@ -61,7 +61,7 @@
 
   </div>
 
-  <!-- 4. Мобильная панель справа: Корзина (для Customer) + Кнопка Бургер -->
+  <!-- 4. Mobile panel on the right: Cart (for Customer) + Burger button -->
   <div class="mobile-controls">
     @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Customer') {
     <app-button variant="text" (click)="cartService.toggleCart()">
@@ -82,7 +82,7 @@
     </button>
   </div>
 
-  <!-- 5. Выпадающее мобильное меню -->
+  <!-- 5. Mobile dropdown menu -->
   @if (isMobileMenuOpen()) {
   <div class="mobile-dropdown">
     @if (authService.isAuthenticated()) {
@@ -96,7 +96,7 @@
     </div>
     }
 
-    <!-- Навигационные ссылки -->
+    <!-- Navigation links -->
     <div class="mobile-links">
       @if (authService.currentUser()?.role === 'Waiter') {
       <app-button variant="text" routerLink="/orders" routerLinkActive="active-link"
@@ -121,7 +121,7 @@
       }
     </div>
 
-    <!-- Кнопки авторизации / выхода -->
+    <!-- Authentication/logout buttons -->
     <div class="mobile-auth-actions">
       @if (!authService.isAuthenticated()) {
       <app-button variant="text" (click)="openLogin()">Log In</app-button>

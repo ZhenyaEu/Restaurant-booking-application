@@ -4,7 +4,7 @@
     <p>Explore high-quality dishes prepared fresh every single day.</p>
   </header>
 
-  <!-- Панель поиска и сортировки справа сверху над сеткой -->
+  <!-- Search and sorting panel in the upper right above the grid -->
   <div class="controls-bar">
     <div class="search-box">
       <input type="text" placeholder="Search dish by name..." [ngModel]="searchQuery()"
@@ -23,7 +23,7 @@
     </div>
   </div>
 
-  <!-- Выводим отфильтрованный список filteredDishes() -->
+  <!-- Display the filtered filteredDishes() list -->
   @if (isLoading()) {
   <app-spinner message="Loading delicious menu..."></app-spinner>
   }
@@ -33,7 +33,7 @@
   <div class="dishes-grid">
     @for (dish of filteredDishes(); track dish.id) {
     <div class="dish-card">
-      <!-- Весь внутренний код карточки остается без изменений -->
+      <!-- All internal card markup remains unchanged -->
       <div class="dish-image-wrapper">
         <img [src]="dish.imageUrl" [alt]="dish.name" class="dish-img">
       </div>

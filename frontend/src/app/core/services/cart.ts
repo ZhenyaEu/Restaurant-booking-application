@@ -25,7 +25,7 @@ export class CartService {
     this.items().reduce((acc, item) => acc + (item.dish.price * item.quantity), 0)
   );
 
-  // Загружаем персональную корзину с сервера
+  // Load the personal cart from the server
   loadCart() {
     this.http.get<CartItem[]>(this.apiUrl).subscribe({
       next: (serverItems) => this.items.set(serverItems),
@@ -33,13 +33,13 @@ export class CartService {
     });
   }
 
-  // Очищаем корзину в памяти фронтенда при выходе из аккаунта
+  // Clear the cart in frontend memory when logging out
   clearLocalCart() {
     this.items.set([]);
     this.isOpen.set(false);
   }
 
-  // Отправляем актуальное состояние корзины на бэкенд
+  // Send the current cart state to the backend
   private syncWithServer(updatedItems: CartItem[]) {
     this.items.set(updatedItems);
     this.http.post<CartItem[]>(this.apiUrl, { items: updatedItems }).subscribe({

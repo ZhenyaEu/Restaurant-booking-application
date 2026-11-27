@@ -17,7 +17,7 @@
           <h3 class="restaurant-name">{{ restaurant.name }}</h3>
           <p class="restaurant-address">📍 {{ restaurant.address }}</p>
           <div class="card-actions">
-            <!-- Динамический переход на /restaurants/{id} -->
+            <!-- Dynamic navigation to /restaurants/{id} -->
             <app-button variant="primary" [routerLink]="['/restaurants', restaurant.id]">
               Learn more
             </app-button>

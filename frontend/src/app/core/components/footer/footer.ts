@@ -8,6 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './footer.scss'
 })
 export class FooterComponent {
-  // Автоматически берем текущий год (2026)
+  // Automatically use the current year (2026)
   currentYear: number = new Date().getFullYear();
 }

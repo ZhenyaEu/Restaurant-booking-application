@@ -19,7 +19,7 @@ const getDayTimeline = async (restaurantId, dateStr, clientTimezoneOffset = 0) =
   const openMins = timeToMinutes('09:00');
   const closeMins = isWeekend ? timeToMinutes('23:00') : timeToMinutes('22:00');
 
-  // Загружаем существующие брони из MongoDB
+  // Load existing bookings from MongoDB
   const existingBookings = await Booking.find({ restaurantId: String(restaurantId), date: dateStr });
 
   const blockedIntervals = existingBookings.map(b => ({

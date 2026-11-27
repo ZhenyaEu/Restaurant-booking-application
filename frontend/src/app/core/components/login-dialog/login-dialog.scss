@@ -1,26 +1,26 @@
-// Заставляем поля ввода (mat-form-field) вставать строго друг под другом
+// Make the input fields (mat-form-field) stack strictly on top of each other
 .dialog-form {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;       // Приятный отступ между полями ввода
+  gap: 0.75rem;       // Pleasant spacing between input fields
   padding-top: 0.75rem;
-  min-width: 320px;   // Оптимальная ширина для полей формы
+  min-width: 320px;   // Optimal width for form fields
   
-  // Растягиваем поля на всю ширину контейнера
+  // Stretch fields to the full container width
   mat-form-field {
     width: 100%;
   }
 }
 
-// Стили для текста ошибок (если введен неверный пароль/email)
+// Styles for error text (if an invalid password/email is entered)
 .error-text {
-  color: #ef4444;     // Современный красный цвет
+  color: #ef4444;     // Modern red color
   font-size: 0.85rem;
   margin: 0;
   font-weight: 500;
 }
 
-// Стилизация кнопок управления внизу модального окна
+// Style the control buttons at the bottom of the dialog
 mat-dialog-actions {
   gap: 0.5rem;
   padding: 1rem 1.5rem !important;
@@ -32,17 +32,17 @@ mat-dialog-actions {
     cursor: pointer;
     border: none;
     padding: 0.6rem 1.2rem;
-    border-radius: 6px; // Закругления как на кнопках в навбаре
+    border-radius: 6px; // Rounded corners like the navbar buttons
     transition: all 0.2s ease-in-out;
 
-    // Стили для заблокированной кнопки (когда форма еще не заполнена)
+    // Styles for the disabled button (when the form is incomplete)
     &:disabled {
       opacity: 0.5;
       cursor: not-allowed;
     }
   }
 
-  // Кнопка Cancel (прозрачная с серым текстом)
+  // Cancel button (transparent with gray text)
   .btn-cancel {
     background: transparent;
     color: #64748b;
@@ -52,7 +52,7 @@ mat-dialog-actions {
     }
   }
 
-  // Кнопка Submit (зеленая, под цвет нашего навбара)
+  // Submit button (green, matching the navbar)
   .btn-submit {
     background: #15803d;
     color: white;

@@ -2,19 +2,19 @@
 <div class="detail-container">
   <a routerLink="/restaurants" class="back-link">← Back to Restaurants</a>
 
-  <!-- Крупное фото ресторана -->
+  <!-- Large restaurant photo -->
   <div class="hero-banner">
     <img [src]="rest.imageUrl" [alt]="rest.name" class="hero-img">
   </div>
 
-  <!-- Шапка с названием, адресом и кнопкой Book a table -->
+  <!-- Header with name, address, and Book a table button -->
   <div class="header-bar">
     <div>
       <h1>{{ rest.name }}</h1>
       <p class="address">📍 {{ rest.address }}</p>
     </div>
 
-    <!-- Кнопка скрыта для Admin, но видна для Гостя и Customer -->
+    <!-- Button hidden for Admin but visible for Guest and Customer -->
     @if (authService.currentUser()?.role !== 'Admin') {
     <div class="cta-box">
       <app-button variant="primary" (click)="onBookTable()">Book a table</app-button>
@@ -22,7 +22,7 @@
     }
   </div>
 
-  <!-- Блок подробной информации -->
+  <!-- Detailed information section -->
   <div class="info-grid">
     <div class="info-card">
       <h3>🌿 Interior & Atmosphere</h3>
@@ -45,12 +45,12 @@
     </div>
   </div>
 
-  <!-- Горизонтальная секция отзывов внизу -->
+  <!-- Horizontal reviews section at the bottom -->
   <section class="reviews-section">
     <div class="reviews-header">
       <h2>Guest Reviews</h2>
 
-      <!-- Кнопка видна ТОЛЬКО для Customer -->
+      <!-- Button visible ONLY for Customer -->
       @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Customer') {
       <app-button variant="primary" (click)="onOpenReviewDialog()">
         {{ myReview() ? 'Edit Your Review' : 'Leave a Review' }}

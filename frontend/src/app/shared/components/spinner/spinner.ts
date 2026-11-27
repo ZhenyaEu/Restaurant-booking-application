@@ -44,6 +44,6 @@ import { Component, input } from '@angular/core';
   `]
 })
 export class SpinnerComponent {
-  // Опциональный текст под спиннером
+  // Optional text below the spinner
   message = input<string>('Loading data...');
 }

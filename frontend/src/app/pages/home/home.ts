@@ -29,17 +29,17 @@ export class Home implements OnInit {
   searchQuery = signal<string>('');
   sortOrder = signal<'default' | 'asc' | 'desc'>('default');
 
-  // Автоматически пересчитываемый список блюд при каждом изменении поиска или сортировки
+  // Automatically recalculated dish list whenever search or sorting changes
   filteredDishes = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
     const order = this.sortOrder();
     
-    // 1. Фильтрация по названию
+    // 1. Filter by name
     let result = this.dishes().filter(dish => 
       dish.name.toLowerCase().includes(query)
     );
 
-    // 2. Сортировка по цене
+    // 2. Sort by price
     if (order === 'asc') {
       result = [...result].sort((a, b) => a.price - b.price);
     } else if (order === 'desc') {
@@ -54,7 +54,7 @@ export class Home implements OnInit {
     this.dishesService.getDishes().subscribe({
       next: (data) => {
         this.dishes.set(data);
-        this.isLoading.set(false); // Выключаем спиннер
+        this.isLoading.set(false); // Hide the spinner
       },
       error: (err) => {
         console.error('Could not load dishes', err);
@@ -65,13 +65,13 @@ export class Home implements OnInit {
 
   onEdit(dish: Dish) {
     const dialogRef = this.dialog.open(EditDishDialogComponent, {
-      data: dish // Передаем текущее блюдо в модальное окно
+      data: dish // Pass the current dish to the dialog
     });
 
-    // Подписываемся на закрытие окна
+    // Subscribe to dialog close
     dialogRef.afterClosed().subscribe((updatedDish: Dish | undefined) => {
       if (updatedDish) {
-        // Обновляем карточку в сигнале без перезагрузки страницы
+        // Update the card through the signal without reloading the page
         this.dishes.update(list =>
           list.map(item => item.id === updatedDish.id ? updatedDish : item)
         );
@@ -84,7 +84,7 @@ export class Home implements OnInit {
 
     this.dishesService.deleteDish(id).subscribe({
       next: () => {
-        // Удаляем блюдо из списка на экране
+        // Remove the dish from the on-screen list
         this.dishes.update(list => list.filter(item => item.id !== id));
       },
       error: (err) => console.error('Ошибка при удалении:', err)
@@ -96,9 +96,9 @@ export class Home implements OnInit {
     this.cartService.addToCart(dish);
     this.snackBar.open(`"${dish.name}" added to cart`, 'OK', {
       duration: 2000,
-      horizontalPosition: 'end',   // Справа внизу (можно поставить 'center')
+      horizontalPosition: 'end',   // At the lower right (can be set to 'center')
       verticalPosition: 'bottom',
-      panelClass: ['cart-snackbar'] // Кастомный класс для стилизации
+      panelClass: ['cart-snackbar'] // Custom styling class
     });
   }
 

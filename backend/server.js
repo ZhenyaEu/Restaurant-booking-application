@@ -9,13 +9,13 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 
-// Модели
+// Models
 const User = require('./models/User');
 const Dish = require('./models/Dish');
 const Cart = require('./models/Cart');
 const Order = require('./models/Order');
 
-// Роутеры
+// Routers
 const restaurantRoutes = require('./routes/restaurants');
 const bookingRoutes = require('./routes/bookings.routes');
 const customerRoutes = require('./routes/customer');
@@ -43,7 +43,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Функция автоматического наполнения БД при старте (Admin, Waiter и базовое блюдо)
+// Function for automatically populating the database at startup (Admin, Waiter, and a basic dish)
 const seedDatabase = async () => {
   try {
     const adminExists = await User.findOne({ email: 'admin@test.com' });
@@ -119,12 +119,12 @@ const seedDatabase = async () => {
   }
 };
 
-// Подключаем модульные роуты
+// Connect the modular routes
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/customer', customerRoutes);
 
-// Мидлвары авторизации
+// Authorization middleware
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -152,12 +152,12 @@ const isWaiter = (req, res, next) => {
   });
 };
 
-// 1. Конфиг
+// 1. Config
 app.get('/api/config', (req, res) => {
   res.json({ logoUrl: `http://localhost:${PORT}/static/logo.png`, siteName: 'My Junior Project' });
 });
 
-// 2. Регистрация
+// 2. Registration
 app.post('/api/register', async (req, res) => {
   try {
     const { firstName, secondName, email, password } = req.body;
@@ -183,7 +183,7 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// 3. Логин
+// 3. Login
 app.post('/api/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -209,13 +209,13 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// 4. Список покупателей для Админа
+// 4. Customer list for the Admin
 app.get('/api/admin/customers', isAdmin, async (req, res) => {
   const customers = await User.find({ role: 'Customer' });
   res.json(customers.map(c => ({ id: c._id, firstName: c.firstName, secondName: c.secondName, email: c.email })));
 });
 
-// 5. Блюда (CRUD)
+// 5. Dishes (CRUD)
 app.get('/api/dishes', async (req, res) => {
   const dishes = await Dish.find();
   res.json(dishes.map(d => ({ id: d._id, name: d.name, description: d.description, price: d.price, imageUrl: d.imageUrl })));
@@ -254,7 +254,7 @@ app.delete('/api/admin/dishes/:id', isAdmin, async (req, res) => {
   res.json({ message: 'Deleted' });
 });
 
-// 6. Персональная корзина
+// 6. Personal cart
 app.get('/api/cart', verifyToken, async (req, res) => {
   const cart = await Cart.findOne({ userId: req.user.id });
   res.json(cart ? cart.items : []);
@@ -265,12 +265,12 @@ app.post('/api/cart', verifyToken, async (req, res) => {
   const cart = await Cart.findOneAndUpdate(
     { userId: req.user.id },
     { items },
-    { new: true, upsert: true } // Создаст корзину в БД, если её еще нет
+    { new: true, upsert: true } // Creates a cart in the database if it does not exist yet
   );
   res.json(cart.items);
 });
 
-// 7. Заказы (Customer -> Waiter)
+// 7. Orders (Customer -> Waiter)
 app.post('/api/orders', verifyToken, async (req, res) => {
   const user = await User.findById(req.user.id);
   const cart = await Cart.findOne({ userId: req.user.id });
@@ -289,7 +289,7 @@ app.post('/api/orders', verifyToken, async (req, res) => {
     status: 'In progress'
   });
 
-  // Очищаем корзину в базе
+  // Clear the cart in the database
   cart.items = [];
   await cart.save();
 
@@ -336,7 +336,7 @@ app.patch('/api/waiter/orders/:id/complete', isWaiter, async (req, res) => {
   });
 });
 
-// Запуск подключения к MongoDB Atlas и старт сервера
+// Start the MongoDB Atlas connection and server
 mongoose.connect(process.env.MONGO_URI)
   .then(async () => {
     console.log('✅ Успешное подключение к MongoDB Atlas!');

@@ -14,12 +14,12 @@ import { customerGuard } from './core/guards/customer-guard';
 
 
 export const routes: Routes = [
-  // Если адрес пустой (http://localhost:4200), показываем Главную
+  // If the address is empty (http://localhost:4200), show the Home page
   { path: '', component: Home }, 
   { path: 'restaurants', component: RestaurantsComponent, canActivate: [notWaiterGuard] },
   { path: 'restaurants/:id', component: RestaurantDetailComponent, canActivate: [notWaiterGuard] },
   
-  // Если адрес http://localhost:4200/about, показываем страницу About
+  // If the address is http://localhost:4200/about, show the About page
   { path: 'about', component: About },
 
   { path: 'admin', component: Admin, canActivate: [adminGuard] },
@@ -27,6 +27,6 @@ export const routes: Routes = [
   { path: 'reservations', component: ReservationsComponent, canActivate: [waiterGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [customerGuard] },
   
-  // Редирект на главную, если пользователь ввел несуществующий адрес
+  // Redirect to the home page if the user enters a nonexistent address
   { path: '**', redirectTo: '' } 
 ];

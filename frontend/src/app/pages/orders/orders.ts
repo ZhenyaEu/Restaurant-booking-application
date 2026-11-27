@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { DatePipe } from '@angular/common'; // Для красивого форматирования даты
+import { DatePipe } from '@angular/common'; // For nicely formatted dates
 import { OrdersService, Order } from '../../core/services/orders';
 import { SpinnerComponent } from '../../shared/components/spinner/spinner';
 
@@ -32,7 +32,7 @@ export class OrdersComponent implements OnInit {
   markAsDone(orderId: number) {
     this.ordersService.completeOrder(orderId).subscribe({
       next: (updatedOrder) => {
-        // Обновляем статус заказа на экране без перезагрузки
+        // Update the order status on screen without reloading
         this.orders.update(list => 
           list.map(o => o.id === updatedOrder.id ? updatedOrder : o)
         );

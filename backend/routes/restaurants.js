@@ -7,7 +7,7 @@ const router = express.Router();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'my_super_secret_key_123';
 
-// Мидлвар проверки роли Customer
+// Customer role-checking middleware
 const isCustomer = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -26,7 +26,7 @@ const isCustomer = (req, res, next) => {
 };
 
 
-// Моковая база ресторанов и отзывов
+// Mock restaurant and review database
 const restaurants = [
   {
     id: 1,
@@ -63,7 +63,7 @@ const restaurants = [
     workingHours: 'Mon–Fri: 09:00 – 22:00 | Sat–Sun: 10:00 – 23:00',
     interiorDescription: 'Warm brick arches, handmade clay amphoras (qvevri), woven Georgian carpets, and an open wood-fired tone oven where fresh shoti bread is baked right before guests.',
     locationDescription: 'Situated right on the central Dmytra Yavornytskoho Avenue near Katerynoslavskyi Boulevard, easily accessible by public transport with a cozy courtyard patio.',
-    reviews: [] // Пустой массив для будущих отзывов
+    reviews: [] // Empty array for future reviews
   },
   {
     id: 3,
@@ -74,11 +74,11 @@ const restaurants = [
     workingHours: 'Mon–Fri: 09:00 – 22:00 | Sat–Sun: 10:00 – 23:00',
     interiorDescription: 'Rustic mountain-style hall featuring carved walnut tables, vintage Tbilisi photographs, soft lantern lighting, and panoramic windows overlooking the historic street.',
     locationDescription: 'Located in the lively cultural district on Sichovykh Striltsiv Street, a 5-minute walk from Trinity Cathedral, offering private family booths.',
-    reviews: [] // Пустой массив для будущих отзывов
+    reviews: [] // Empty array for future reviews
   }
 ];
 
-//Получить список всех ресторанов
+// Get a list of all restaurants
 router.get('/', (req, res) => {
   const summaryList = restaurants.map(({ id, name, address, imageUrl }) => ({
     id,
@@ -89,7 +89,7 @@ router.get('/', (req, res) => {
   res.json(summaryList);
 });
 
-// Получить ресторан + объединенные отзывы (моковые + из MongoDB)
+// Get a restaurant and combined reviews (mock and MongoDB)
 router.get('/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -99,7 +99,7 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Restaurant not found' });
     }
 
-    // Загружаем реальные отзывы из MongoDB для этого ресторана
+    // Load real MongoDB reviews for this restaurant
     const dbReviews = await Review.find({ restaurantId: id });
     const formattedDbReviews = dbReviews.map(r => ({
       id: r._id.toString(),
@@ -119,7 +119,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Создать или обновить отзыв (1 отзыв на ресторан от 1 Customer)
+// Create or update a review (1 review per restaurant from 1 Customer)
 router.post('/:id/reviews', isCustomer, async (req, res) => {
   try {
     const restaurantId = Number(req.params.id);
@@ -137,7 +137,7 @@ router.post('/:id/reviews', isCustomer, async (req, res) => {
       day: 'numeric'
     });
 
-    // Ищем существующий отзыв этого пользователя для этого ресторана и обновляем, либо создаем новый
+    // Find this user's existing review for this restaurant and update it, or create a new one
     const review = await Review.findOneAndUpdate(
       { restaurantId, userId: req.user.id },
       {

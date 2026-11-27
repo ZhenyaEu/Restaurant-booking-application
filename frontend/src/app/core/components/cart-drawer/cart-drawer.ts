@@ -19,13 +19,13 @@ export class CartDrawerComponent {
   onCheckout() {
     this.ordersService.createOrder().subscribe({
       next: () => {
-        // 1. Очищаем и закрываем корзину
+        // 1. Clear and close the cart
         this.cartService.clearLocalCart();
 
-        // 2. Открываем модальное окно
+        // 2. Open the dialog
         const dialogRef = this.dialog.open(OrderSuccessDialogComponent);
 
-        // 3. Автоматически закрываем через 2 секунды
+        // 3. Automatically close after 2 seconds
         setTimeout(() => {
           dialogRef.close();
         }, 2000);

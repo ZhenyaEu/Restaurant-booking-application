@@ -24,7 +24,7 @@ export class AuthService {
   private router = inject(Router);
   private apiUrl = 'http://localhost:3000/api';
 
-  // Сигналы для отслеживания состояния пользователя во всем приложении
+  // Signals for tracking the user's state throughout the application
   currentUser = signal<AuthResponse['user'] | null>(null);
   isAuthenticated = signal<boolean>(false);
 
@@ -36,7 +36,7 @@ export class AuthService {
       this.currentUser.set(user);
       this.isAuthenticated.set(true);
 
-      // 3. Если при перезагрузке страницы это Customer, подгружаем его корзину
+      // 3. If the page reload is performed by a Customer, load their cart
       if (user.role === 'Customer') {
         this.cartService.loadCart();
       }
@@ -61,7 +61,7 @@ export class AuthService {
     this.currentUser.set(null);
     this.isAuthenticated.set(false);
     this.cartService.clearLocalCart();
-    this.router.navigate(['/']); // При выходе возвращаем на главную
+    this.router.navigate(['/']); // Return to the home page when logging out
   }
 
   private handleAuth(res: AuthResponse) {
@@ -73,10 +73,10 @@ export class AuthService {
     if (res.user.role === 'Customer') {
       this.cartService.loadCart();
     } else if (res.user.role === 'Waiter') {
-      // Автоматический редирект официанта на страницу /orders
+      // Automatically redirect a Waiter to the /orders page
       this.router.navigate(['/orders']);
     } else if (res.user.role === 'Admin') {
-      // Автоматический переход на Admin Panel при входе админа
+      // Automatically open the Admin Panel when an Admin logs in
       this.router.navigate(['/admin']);
     }
   }

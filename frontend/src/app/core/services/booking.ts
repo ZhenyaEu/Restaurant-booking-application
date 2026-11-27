@@ -11,7 +11,7 @@ export interface TimelineSlot {
 
 }
 
-// 1. Новый интерфейс для резерваций, которые будет видеть официант
+// 1. New reservation interface for the Waiter
 export interface Booking {
   id: string;
   restaurantId: string;
@@ -29,7 +29,7 @@ export class BookingService {
   private apiUrl = 'http://localhost:3000/api/bookings';
 
   getTimeline(restaurantId: string, date: string): Observable<TimelineSlot[]> {
-    // Передаем смещение часового пояса пользователя (в минутах), чтобы сервер точно знал локальное время
+    // Pass the user's timezone offset (in minutes) so the server knows the exact local time
     const tzOffset = new Date().getTimezoneOffset();
     return this.http.get<TimelineSlot[]>(`${this.apiUrl}/timeline`, {
       params: { restaurantId, date, tzOffset: tzOffset.toString() }

@@ -1,7 +1,7 @@
 import { Component, signal, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog'; // Импортируем Dialog
+import { MatDialog, MatDialogModule } from '@angular/material/dialog'; // Import Dialog
 
 import { ButtonComponent } from '../../../shared/components/button/button';
 import { AuthService } from '../../services/auth';
@@ -22,7 +22,7 @@ export class Navbar implements OnInit {
   isMobileMenuOpen = signal<boolean>(false);
   
   private http = inject(HttpClient);
-  public authService = inject(AuthService); // Делаем public, чтобы использовать в HTML
+  public authService = inject(AuthService); // Make public so it can be used in HTML
   private dialog = inject(MatDialog);
   public cartService = inject(CartService)
   public themeService = inject(ThemeService);

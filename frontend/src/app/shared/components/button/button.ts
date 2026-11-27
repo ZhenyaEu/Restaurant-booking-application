@@ -11,7 +11,7 @@ import { Component, input } from '@angular/core';
   styleUrl: './button.scss'
 })
 export class ButtonComponent {
-  // Используем современные Signal-inputs (доступны в Angular 17.1+)
+  // Use modern signal inputs (available in Angular 17.1+)
   variant = input<'text' | 'primary'>('text'); 
 }
 

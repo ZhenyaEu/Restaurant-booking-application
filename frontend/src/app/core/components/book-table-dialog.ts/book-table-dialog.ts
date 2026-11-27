@@ -32,7 +32,7 @@ import { AuthService } from '../../services/auth';
       </div>
 
       <form [formGroup]="form" class="form-container">
-        <!-- 1. Выбор даты -->
+        <!-- 1. Date selection -->
         <mat-form-field appearance="outline">
           <mat-label>Date of visit</mat-label>
           <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="date" readonly (click)="picker.open()">
@@ -40,9 +40,9 @@ import { AuthService } from '../../services/auth';
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
-        <!-- 2. Выбор времени (разблокируется после выбора даты) -->
+        <!-- 2. Time selection (enabled after selecting a date) -->
         <div class="time-row">
-          <!-- Время начала -->
+          <!-- Start time -->
           <mat-form-field appearance="outline">
             <mat-label>Start of the visit</mat-label>
             <mat-select formControlName="startTime">
@@ -61,7 +61,7 @@ import { AuthService } from '../../services/auth';
             </mat-select>
           </mat-form-field>
 
-          <!-- Время окончания (произвольная длительность с шагом 30 мин) -->
+          <!-- End time (custom duration in 30-minute steps) -->
           <mat-form-field appearance="outline">
             <mat-label>End of the visit</mat-label>
             <mat-select formControlName="endTime">
@@ -104,7 +104,7 @@ export class BookTableDialogComponent implements OnInit {
   private dialogRef = inject(MatDialogRef<BookTableDialogComponent>);
   private authService = inject(AuthService);
 
-  minDate = new Date(); // Запрещаем выбор вчерашнего дня
+  minDate = new Date(); // Prevent selecting yesterday's date
   timeline: TimelineSlot[] = [];
   availableEndSlots: TimelineSlot[] = [];
   isLoading = false;
@@ -116,7 +116,7 @@ export class BookTableDialogComponent implements OnInit {
     endTime: [{ value: null, disabled: true }, Validators.required]
   });
 
-  // Все слоты кроме самой последней точки закрытия (так как в 22:00/23:00 начать бронь уже нельзя)
+  // All slots except the final closing point (because a booking cannot start at 22:00/23:00)
   get startSlots(): TimelineSlot[] {
     return this.timeline.slice(0, -1);
   }
@@ -124,7 +124,7 @@ export class BookTableDialogComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
-    // 1. Реакция на выбор даты
+    // 1. React to date selection
     this.form.get('date')?.valueChanges.subscribe((date: Date) => {
       if (!date) return;
       this.errorMessage = '';
@@ -135,11 +135,11 @@ export class BookTableDialogComponent implements OnInit {
       const dateStr = this.formatDate(date);
       this.bookingService.getTimeline(this.data.restaurantId, dateStr).subscribe(slots => {
         this.timeline = slots;
-        this.form.get('startTime')?.enable(); // Разблокируем инпут времени после выбора даты
+        this.form.get('startTime')?.enable(); // Enable the time input after selecting a date
       });
     });
 
-    // 2. Реакция на выбор времени начала -> вычисляем допустимое время окончания
+    // 2. React to start-time selection -> calculate the allowed end time
     this.form.get('startTime')?.valueChanges.subscribe((selectedStart: TimelineSlot) => {
       const endControl = this.form.get('endTime');
       endControl?.reset();
@@ -158,15 +158,15 @@ export class BookTableDialogComponent implements OnInit {
     const validEnds: TimelineSlot[] = [];
     const startIndex = this.timeline.findIndex(s => s.minutes === startSlot.minutes);
 
-    // Идем по таймлайну вперед от выбранного старта с шагом 30 минут
+    // Move forward along the timeline from the selected start in 30-minute steps
     for (let i = startIndex + 1; i < this.timeline.length; i++) {
       const candidateSlot = this.timeline[i];
 
-      // Проверяем: не уперлись ли мы в буфер перед следующей чужой бронью?
-      // Если candidateSlot.isReserved == true, значит на это время уже есть бронь,
-      // а значит наша бронь должна закончиться МИНИМУМ на 30 минут раньше (на предыдущем шаге).
+      // Check whether we have reached the buffer before the next reservation from another user
+      // If candidateSlot.isReserved == true, there is already a reservation for that time,
+      // so our booking must end at least 30 minutes earlier (at the previous step).
       if (candidateSlot.isReserved) {
-        // Удаляем последний добавленный слот, чтобы сохранить 30-минутный буфер до чужой брони!
+        // Remove the last added slot to preserve a 30-minute buffer before another user's reservation
         validEnds.pop();
         break;
       }

@@ -24,7 +24,7 @@
     display: inline-block;
     background: #e2e8f0;
     color: #334155 !important;
-    border: 1px solid #cbd5e1; // Граница в светлой теме
+    border: 1px solid #cbd5e1; // Border in the light theme
     padding: 0.55rem 1.1rem;
     border-radius: 6px;
     cursor: pointer;
@@ -45,11 +45,11 @@
   }
 }
 
-// Стили для тёмной темы (вынесены из .file-upload на верхний уровень)
+// Dark-theme styles (moved from .file-upload to the top level)
 :host-context(body.dark-theme) .file-upload .file-label {
   background: #334155;
   color: #ffffff !important;
-  border: 1px solid #475569; // Точно такая же толщина границы, как в светлой теме
+  border: 1px solid #475569; // Exactly the same border thickness as in the light theme
 
   &:hover {
     background: #475569;
@@ -100,7 +100,7 @@ mat-dialog-actions {
   }
 }
 
-// Адаптация кнопки Cancel для тёмной темы
+// Cancel button adaptation for the dark theme
 :host-context(body.dark-theme) {
   mat-dialog-actions .btn-cancel {
     color: #cbd5e1 !important;
