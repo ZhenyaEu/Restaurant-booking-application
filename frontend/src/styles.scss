@@ -67,16 +67,16 @@ textarea {
   font-family: inherit;
 }
 
-// Настраиваем красивые, плотные заголовки
+
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  color: #0f172a; // Более глубокий темный цвет для контраста
-  font-weight: 700; // Делаем заголовки жирными и солидными
-  letter-spacing: -0.02em; // Слегка сжимаем расстояние между буквами в заголовках 
+  color: #0f172a; 
+  font-weight: 700; 
+  letter-spacing: -0.02em; 
 }
 
 :root {
@@ -100,7 +100,7 @@ body.dark-theme {
   --border-color: #334155;
   --accent-green: #22c55e;
 
-    // Возвращаем оригинальные стили для календаря Angular Material
+    // Restoring the Original Styles for the Angular Material Calendar
   .mat-datepicker-content,
   .mat-calendar, .mat-select  {
     background-color: #ffffff !important;
