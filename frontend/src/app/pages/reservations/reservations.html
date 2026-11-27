@@ -9,13 +9,16 @@
             @if (selectedDate()) {
             <button class="btn-clear" (click)="clearFilter()">Show All</button>
             }
+            <button class="btn-pdf" (click)="downloadPdfReport()" [disabled]="filteredBookings().length === 0">
+                📄 Download PDF
+            </button>
         </div>
     </div>
 
     @if (isLoading()) {
     <app-spinner message="Loading table reservations..."></app-spinner>
     }
-     @else if (filteredBookings().length === 0) {
+    @else if (filteredBookings().length === 0) {
     <p class="empty-msg">
         {{ selectedDate() ? 'No reservations found for this date.' : 'No table reservations yet.' }}
     </p>

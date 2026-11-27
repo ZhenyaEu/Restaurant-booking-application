@@ -1,6 +1,8 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { BookingService, Booking } from '../../core/services/booking';
 import { SpinnerComponent } from '../../shared/components/spinner/spinner';
 
@@ -55,5 +57,62 @@ export class ReservationsComponent implements OnInit {
 
   clearFilter() {
     this.selectedDate.set('');
+  }
+
+  // Метод генерации и скачивания PDF-отчета
+  downloadPdfReport() {
+    const data = this.filteredBookings();
+    if (data.length === 0) return;
+
+    const doc = new jsPDF();
+    const filterDate = this.selectedDate();
+
+    // 1. Заголовок документа
+    doc.setFontSize(18);
+    doc.setTextColor(21, 128, 61); // Фирменный зеленый цвет (#15803d)
+    doc.text('Georgian Restaurant Chain — Reservations Report', 14, 20);
+
+    // 2. Подзаголовок с выбранной датой и общим количеством броней
+    doc.setFontSize(11);
+    doc.setTextColor(71, 85, 105);
+    const periodText = filterDate ? `Selected Date: ${filterDate}` : 'Period: All Dates';
+    doc.text(`${periodText} | Total Reservations: ${data.length}`, 14, 28);
+
+    // 3. Подготовка строк для таблицы
+    const tableRows = data.map((item, index) => [
+      index + 1,
+      item.customerName,
+      item.customerEmail,
+      item.date,
+      `${item.startTime} - ${item.endTime}`,
+      new Date(item.createdAt).toLocaleString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    ]);
+
+    // 4. Отрисовка таблицы
+    autoTable(doc, {
+      startY: 35,
+      head: [['#', 'Customer Name', 'Email', 'Reserved Date', 'Time Slot', 'Booked On']],
+      body: tableRows,
+      theme: 'grid',
+      headStyles: {
+        fillColor: [21, 128, 61], // Зеленая шапка таблицы
+        textColor: [255, 255, 255],
+        fontStyle: 'bold'
+      },
+      styles: {
+        fontSize: 9,
+        cellPadding: 3
+      }
+    });
+
+    // 5. Сохранение файла с понятным именем
+    const fileName = filterDate ? `reservations_${filterDate}.pdf` : 'reservations_all.pdf';
+    doc.save(fileName);
   }
 }
