@@ -7,11 +7,12 @@ import { ButtonComponent } from '../../shared/components/button/button';
 import { AuthService } from '../../core/services/auth';
 import { EditDishDialogComponent } from '../../core/components/edit-dish-dialog/edit-dish-dialog';
 import { CartService } from '../../core/services/cart';
+import { SpinnerComponent } from '../../shared/components/spinner/spinner';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ButtonComponent, MatDialogModule, MatSnackBarModule, FormsModule],
+  imports: [ButtonComponent, MatDialogModule, MatSnackBarModule, FormsModule, SpinnerComponent],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
@@ -23,6 +24,7 @@ export class Home implements OnInit {
   private snackBar = inject(MatSnackBar);
 
   dishes = signal<Dish[]>([]);
+  isLoading = signal<boolean>(true);
 
   searchQuery = signal<string>('');
   sortOrder = signal<'default' | 'asc' | 'desc'>('default');
@@ -48,9 +50,16 @@ export class Home implements OnInit {
   });
 
   ngOnInit() {
+    this.isLoading.set(true);
     this.dishesService.getDishes().subscribe({
-      next: (data) => this.dishes.set(data),
-      error: (err) => console.error('Could not load dishes', err)
+      next: (data) => {
+        this.dishes.set(data);
+        this.isLoading.set(false); // Выключаем спиннер
+      },
+      error: (err) => {
+        console.error('Could not load dishes', err);
+        this.isLoading.set(false);
+      }
     });
   }
 

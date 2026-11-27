@@ -27,15 +27,15 @@
         </button>
 
         @if (!isConfirmingDelete()) {
-          <button type="button" class="btn-delete-outline" (click)="isConfirmingDelete.set(true)">
-            Delete Account
-          </button>
+        <button type="button" class="btn-delete-outline" (click)="isConfirmingDelete.set(true)">
+          Delete Account
+        </button>
         } @else {
-          <div class="confirm-delete-box">
-            <span>Are you sure?</span>
-            <button type="button" class="btn-danger" (click)="onDeleteAccount()">Yes, Delete</button>
-            <button type="button" class="btn-cancel" (click)="isConfirmingDelete.set(false)">Cancel</button>
-          </div>
+        <div class="confirm-delete-box">
+          <span>Are you sure?</span>
+          <button type="button" class="btn-danger" (click)="onDeleteAccount()">Yes, Delete</button>
+          <button type="button" class="btn-cancel" (click)="isConfirmingDelete.set(false)">Cancel</button>
+        </div>
         }
       </div>
     </form>
@@ -43,40 +43,43 @@
 
   <!-- Вложенные вкладки: История заказов и История бронирований -->
   <section class="history-section">
+    @if (isLoading()) {
+    <app-spinner message="Loading your history..."></app-spinner>
+    } @else {
     <mat-tab-group animationDuration="200ms">
-      
+
       <!-- Вкладка 1: Order History -->
       <mat-tab label="Order History">
         <div class="tab-content">
           @if (orders().length === 0) {
-            <p class="empty-msg">You haven't placed any orders yet.</p>
+          <p class="empty-msg">You haven't placed any orders yet.</p>
           } @else {
-            <div class="history-list">
-              @for (order of orders(); track order.id) {
-                <div class="history-card">
-                  <div class="history-top">
-                    <span class="order-date">{{ order.createdAt | date:'medium' }}</span>
-                    <span class="status-badge" [class.completed]="order.status === 'Completed'">
-                      {{ order.status }}
-                    </span>
-                  </div>
+          <div class="history-list">
+            @for (order of orders(); track order.id) {
+            <div class="history-card">
+              <div class="history-top">
+                <span class="order-date">{{ order.createdAt | date:'medium' }}</span>
+                <span class="status-badge" [class.completed]="order.status === 'Completed'">
+                  {{ order.status }}
+                </span>
+              </div>
 
-                  <div class="order-items">
-                    @for (item of order.items; track item.dish.id) {
-                      <div class="item-row">
-                        <span>{{ item.dish.name }} <b>× {{ item.quantity }}</b></span>
-                        <span>{{ item.dish.price * item.quantity }}$</span>
-                      </div>
-                    }
-                  </div>
-
-                  <div class="history-footer">
-                    <span>Total Paid:</span>
-                    <b>{{ order.totalPrice }}$</b>
-                  </div>
+              <div class="order-items">
+                @for (item of order.items; track item.dish.id) {
+                <div class="item-row">
+                  <span>{{ item.dish.name }} <b>× {{ item.quantity }}</b></span>
+                  <span>{{ item.dish.price * item.quantity }}$</span>
                 </div>
-              }
+                }
+              </div>
+
+              <div class="history-footer">
+                <span>Total Paid:</span>
+                <b>{{ order.totalPrice }}$</b>
+              </div>
             </div>
+            }
+          </div>
           }
         </div>
       </mat-tab>
@@ -85,27 +88,28 @@
       <mat-tab label="Booking History">
         <div class="tab-content">
           @if (bookings().length === 0) {
-            <p class="empty-msg">You don't have any table reservations yet.</p>
+          <p class="empty-msg">You don't have any table reservations yet.</p>
           } @else {
-            <div class="history-list">
-              @for (booking of bookings(); track booking.id) {
-                <div class="history-card booking-card">
-                  <div class="history-top">
-                    <h4>Restaurant #{{ booking.restaurantId }}</h4>
-                    <span class="order-date">Booked on: {{ booking.createdAt | date:'medium' }}</span>
-                  </div>
+          <div class="history-list">
+            @for (booking of bookings(); track booking.id) {
+            <div class="history-card booking-card">
+              <div class="history-top">
+                <h4>Restaurant #{{ booking.restaurantId }}</h4>
+                <span class="order-date">Booked on: {{ booking.createdAt | date:'medium' }}</span>
+              </div>
 
-                  <div class="booking-badges">
-                    <span class="badge">📅 Date: <b>{{ booking.date }}</b></span>
-                    <span class="badge">🕒 Time: <b>{{ booking.startTime }} – {{ booking.endTime }}</b></span>
-                  </div>
-                </div>
-              }
+              <div class="booking-badges">
+                <span class="badge">📅 Date: <b>{{ booking.date }}</b></span>
+                <span class="badge">🕒 Time: <b>{{ booking.startTime }} – {{ booking.endTime }}</b></span>
+              </div>
             </div>
+            }
+          </div>
           }
         </div>
       </mat-tab>
 
     </mat-tab-group>
+    }
   </section>
 </div>

@@ -12,7 +12,10 @@
         </div>
     </div>
 
-    @if (filteredBookings().length === 0) {
+    @if (isLoading()) {
+    <app-spinner message="Loading table reservations..."></app-spinner>
+    }
+     @else if (filteredBookings().length === 0) {
     <p class="empty-msg">
         {{ selectedDate() ? 'No reservations found for this date.' : 'No table reservations yet.' }}
     </p>

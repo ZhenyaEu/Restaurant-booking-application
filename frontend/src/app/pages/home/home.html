@@ -7,14 +7,10 @@
   <!-- Панель поиска и сортировки справа сверху над сеткой -->
   <div class="controls-bar">
     <div class="search-box">
-      <input 
-        type="text" 
-        placeholder="Search dish by name..." 
-        [ngModel]="searchQuery()" 
-        (ngModelChange)="searchQuery.set($event)"
-      />
+      <input type="text" placeholder="Search dish by name..." [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)" />
       @if (searchQuery()) {
-        <button class="clear-btn" (click)="searchQuery.set('')">✕</button>
+      <button class="clear-btn" (click)="searchQuery.set('')">✕</button>
       }
     </div>
 
@@ -28,37 +24,40 @@
   </div>
 
   <!-- Выводим отфильтрованный список filteredDishes() -->
-  @if (filteredDishes().length === 0) {
-    <p class="no-results">No dishes found matching "{{ searchQuery() }}".</p>
+  @if (isLoading()) {
+  <app-spinner message="Loading delicious menu..."></app-spinner>
+  }
+  @else if (filteredDishes().length === 0) {
+  <p class="no-results">No dishes found matching "{{ searchQuery() }}".</p>
   } @else {
-    <div class="dishes-grid">
-      @for (dish of filteredDishes(); track dish.id) {
-        <div class="dish-card">
-          <!-- Весь внутренний код карточки остается без изменений -->
-          <div class="dish-image-wrapper">
-            <img [src]="dish.imageUrl" [alt]="dish.name" class="dish-img">
-          </div>
-          <div class="dish-info">
-            <h3 class="dish-name">{{ dish.name }}</h3>
-            <p class="dish-desc">{{ dish.description }}</p>
-            
-            <div class="dish-footer">
-              <span class="dish-price">{{ dish.price }}$</span>
+  <div class="dishes-grid">
+    @for (dish of filteredDishes(); track dish.id) {
+    <div class="dish-card">
+      <!-- Весь внутренний код карточки остается без изменений -->
+      <div class="dish-image-wrapper">
+        <img [src]="dish.imageUrl" [alt]="dish.name" class="dish-img">
+      </div>
+      <div class="dish-info">
+        <h3 class="dish-name">{{ dish.name }}</h3>
+        <p class="dish-desc">{{ dish.description }}</p>
 
-              @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Customer') {
-                <app-button variant="primary" (click)="onAddToCart(dish)">Add</app-button>
-              }
+        <div class="dish-footer">
+          <span class="dish-price">{{ dish.price }}$</span>
 
-              @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Admin') {
-                <div class="admin-actions">
-                  <button class="btn-edit" (click)="onEdit(dish)">Edit</button>
-                  <button class="btn-delete" (click)="onDelete(dish.id)">Delete</button>
-                </div>
-              }
-            </div>
+          @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Customer') {
+          <app-button variant="primary" (click)="onAddToCart(dish)">Add</app-button>
+          }
+
+          @if (authService.isAuthenticated() && authService.currentUser()?.role === 'Admin') {
+          <div class="admin-actions">
+            <button class="btn-edit" (click)="onEdit(dish)">Edit</button>
+            <button class="btn-delete" (click)="onDelete(dish.id)">Delete</button>
           </div>
+          }
         </div>
-      }
+      </div>
     </div>
+    }
+  </div>
   }
 </div>

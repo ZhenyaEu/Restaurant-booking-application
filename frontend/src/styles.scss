@@ -39,6 +39,7 @@ body {
   // Reset the user agent margin.
   margin: 0;
   height: 100%;
+  
 }
 // Применяем шрифт ко всему сайту
 body {
@@ -53,6 +54,7 @@ body {
     sans-serif;
   margin: 0;
   padding: 0;
+  padding-top: 60px;
   background-color: #f8f9fa; // Приятный, слегка мягкий белый фон для снижения нагрузки на глаза
   color: #1e293b; // Профессиональный темно-серый цвет текста (вместо едкого чисто черного)
   -webkit-font-smoothing: antialiased; // Сглаживание шрифтов для браузеров на Mac

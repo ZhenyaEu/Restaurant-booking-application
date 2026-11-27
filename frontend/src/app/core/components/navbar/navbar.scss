@@ -1,5 +1,9 @@
 .navbar {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%; /* Обязательно, иначе панель сожмется по ширине контента */
+  z-index: 1000;
   display: grid;
   grid-template-columns: 1fr auto 1fr; // Левая и правая части равны, центр всегда по центру
   align-items: center;

@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../core/services/auth';
+import { SpinnerComponent } from '../../shared/components/spinner/spinner';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +17,8 @@ import { AuthService } from '../../core/services/auth';
     MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    SpinnerComponent
   ],
   templateUrl: './profile.html',
   styleUrl: './profile.scss'
@@ -30,6 +32,7 @@ export class ProfileComponent implements OnInit {
   orders = signal<any[]>([]);
   bookings = signal<any[]>([]);
   isConfirmingDelete = signal<boolean>(false);
+  isLoading = signal<boolean>(true);
 
   ngOnInit() {
     const user = this.authService.currentUser();
@@ -42,12 +45,17 @@ export class ProfileComponent implements OnInit {
   }
 
   loadHistory() {
+    this.isLoading.set(true);
     this.authService.getCustomerHistory().subscribe({
       next: (data) => {
         this.orders.set(data.orders);
         this.bookings.set(data.bookings);
+        this.isLoading.set(false);
       },
-      error: (err) => console.error('Failed to load customer history:', err)
+      error: (err) => {
+        console.error('Failed to load customer history:', err);
+        this.isLoading.set(false);
+      }
     });
   }
 
